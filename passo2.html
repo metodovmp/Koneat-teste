@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Koneat - Virais</title>
-<style>*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#000;color:#fff;padding-bottom:80px}.top{height:56px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;background:#000;position:sticky;top:0;z-index:10}.card{height:calc(100vh - 120px);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;position:relative;background:#111}.card video,.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.info{position:relative;z-index:2}.empty{text-align:center;padding:60px 20px;color:#8e8e93;background:#fff;color:#000;min-height:60vh}.bottom{position:fixed;bottom:0;left:0;right:0;height:62px;background:#121214;border-radius:20px 20px 0 0;display:flex;justify-content:space-around;align-items:center}.bottom a{width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#8e8e93}</style></head>
-<body>
-<header class="top"><b>VIRAL START</b><span>🔍</span></header>
-<div id="feed"></div>
-<nav class="bottom">
-<a href="./passo4.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2z"/></svg></a>
-<a href="./passo3.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#8e8e93" stroke-width="1.8"/><path d="M12 7v10M7 12h10" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/></svg></a>
-<a href="./passo2.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="#fff"><path d="M22 20v-7.826a2 2 0 0 0-.613-1.43l-8-7.826a2 2 0 0 0-2.774 0l-8 7.826A2 2 0 0 0 2 12.174V20a2 2 0 0 0 2 2h4.5a.5.5 0 0 0 .5-.5v-5a2.5 2.5 0 0 1 5 0v5a.5.5 0 0 0 .5.5H19a2 2 0 0 0 2-2z"/></svg></a>
-<a href="./passo1.html"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
-</nav>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Virais</title>
+<style>*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#000;color:#fff;padding-bottom:70px}.top{height:56px;display:flex;align-items:center;padding:0 16px}.feed{display:flex;flex-direction:column;gap:16px;padding:0 12px}.card{background:#1a1a1a;border-radius:14px;overflow:hidden}.card video,.card img{width:100%;display:block;max-height:70vh;object-fit:cover}.meta{padding:12px}.bottom{position:fixed;bottom:0;left:0;right:0;height:62px;background:#121214;border-radius:20px 20px 0 0;display:flex;justify-content:space-around;align-items:center}.bottom a{width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:#8e8e93}</style></head>
+<body><header class="top"><b>🔥 Virais</b></header><div class="feed" id="feed"></div>
+<nav class="bottom"><a href="./passo4.html">⌂</a><a href="./passo3.html">+</a><a href="./passo2.html">▶</a><a href="./passo1.html">👤</a></nav>
 <script>
-function render(){
+function lerVideo(id){ return new Promise(res=>{ let req=indexedDB.open('koneat_db',1); req.onsuccess=e=>{ let db=e.target.result; if(!db.objectStoreNames.contains('videos')) return res(null); let tx=db.transaction('videos','readonly'); let get=tx.objectStore('videos').get(id); get.onsuccess=()=>res(get.result||null); get.onerror=()=>res(null); }; req.onerror=()=>res(null); }); }
+async function carregar(){
   let posts=JSON.parse(localStorage.getItem('koneat_posts')||'[]').filter(p=>p.tipo==='VIRAL');
-  document.getElementById('feed').innerHTML=posts.length===0?`<div class="empty">Nenhum viral ainda.<br>Poste um VIRAL no Perfil > Crie seu primeiro post para ver aqui.</div>`:
-  posts.map(p=>`<div class="card"><video src="${p.midia||p.url}" autoplay loop muted playsinline></video><div class="info"><b>@${p.author||'koneat_user'}</b><p>${p.legenda||''}</p></div></div>`).join('');
+  let feed=document.getElementById('feed');
+  if(!posts.length){ feed.innerHTML='<p style="text-align:center;color:#aaa">Nenhum viral ainda.<br>Posta um vídeo VIRAL no Perfil.</p>'; return; }
+  for(let p of posts){
+    let src=p.midia||p.url||'';
+    if(p.videoId){ let blob=await lerVideo(p.videoId); if(blob) src=URL.createObjectURL(blob); }
+    if(!src) continue;
+    let d=document.createElement('div'); d.className='card';
+    d.innerHTML=`<video src="${src}" controls playsinline loop></video><div class="meta"><b>@koneat_user</b><p>${p.legenda||''}</p></div>`;
+    feed.appendChild(d);
+  }
 }
-document.addEventListener('DOMContentLoaded',render);
+carregar();
 </script></body></html>
