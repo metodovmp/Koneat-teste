@@ -24,12 +24,17 @@ document.getElementById('file').onchange=e=>{
   let r=new FileReader(); r.onload=()=>{midia=r.result; document.getElementById('preview').innerHTML=isVideo?`<video src="${midia}" controls playsinline></video>`:`<img src="${midia}">`;}; r.readAsDataURL(f);
 };
 document.getElementById('share').onclick=()=>{
-  if(!midia) return alert('Escolha uma foto ou vídeo');
-  if(mode==='VIRAL' && !isVideo) return alert('VIRAL só aceita vídeo');
-  let posts=JSON.parse(localStorage.getItem('koneat_posts')||'[]');
-  let tipo = mode==='VIRAL' ? 'VIRAL' : 'FEED';
-  posts.unshift({id:Date.now(), tipo, midia, url:midia, legenda:document.getElementById('legenda').value, capa:'', data:Date.now(), author:'koneat_user', source:'profile'});
-  localStorage.setItem('koneat_posts',JSON.stringify(posts));
-  location.href = tipo==='VIRAL' ? './passo2.html' : './passo4.html';
+  if(!midia){ alert('Escolha uma foto ou vídeo primeiro'); return; }
+  if(mode==='VIRAL' && !isVideo){ alert('VIRAL só aceita vídeo. Troca pra POST ou escolhe um vídeo.'); return; }
+  try{
+    let posts=JSON.parse(localStorage.getItem('koneat_posts')||'[]');
+    let tipo = mode==='VIRAL' ? 'VIRAL' : 'FEED';
+    posts.unshift({id:Date.now(), tipo, midia, url:midia, legenda:document.getElementById('legenda').value, capa:'', data:Date.now(), author:'koneat_user', source:'profile'});
+    localStorage.setItem('koneat_posts',JSON.stringify(posts));
+    alert('Salvo! Indo para ' + (tipo==='VIRAL' ? 'Virais' : 'Home'));
+    location.href = tipo==='VIRAL' ? './passo2.html' : './passo4.html';
+  }catch(err){
+    alert('Erro ao salvar: vídeo muito grande. Tenta uma foto ou vídeo menor.');
+  }
 };
 </script></body></html>
