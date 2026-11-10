@@ -13,28 +13,32 @@
   <div id="preview"></div>
   <textarea id="legenda" placeholder="Escreva uma legenda..."></textarea>
   <button class="btn" id="share">Compartilhar</button>
-  <p style="color:#8e8e93;font-size:13px;text-align:center">POST / VÍDEO vai pra Home e fica salvo no Perfil.<br>VIRAL vai pro Virais e fica salvo no Perfil.</p>
+  <p style="color:#8e8e93;font-size:13px;text-align:center" id="info">POST / VÍDEO vai pra Home.<br>VIRAL vai pro Virais.</p>
 </div>
 <nav class="bottom"><a href="./passo4.html">⌂</a><a href="./passo3.html">+</a><a href="./passo2.html">▶</a><a href="./passo1.html">👤</a></nav>
 <script>
-let mode='POST', midia='', isVideo=false;
+let mode='POST', midia='', isVideo=false, fileBlob=null;
 document.querySelectorAll('#modes button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#modes button').forEach(x=>x.classList.remove('active'));b.classList.add('active');mode=b.dataset.mode;});
+function salvarVideoDB(id, blob){ return new Promise((res,rej)=>{ let req=indexedDB.open('koneat_db',1); req.onupgradeneeded=e=>{ e.target.result.createObjectStore('videos'); }; req.onsuccess=e=>{ let db=e.target.result; let tx=db.transaction('videos','readwrite'); tx.objectStore('videos').put(blob, 'vid_'+id); tx.oncomplete=()=>res(); tx.onerror=()=>rej(); }; req.onerror=()=>rej(); }); }
+function comprimirFoto(dataUrl, cb){ let img=new Image(); img.onload=()=>{ let max=900, w=img.width, h=img.height; if(w>max){h=h*max/w;w=max;} if(h>max){w=w*max/h;h=max;} let c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h); cb(c.toDataURL('image/jpeg',0.72)); }; img.src=dataUrl; }
 document.getElementById('file').onchange=e=>{
-  let f=e.target.files[0]; if(!f) return; isVideo=f.type.startsWith('video/');
-  let r=new FileReader(); r.onload=()=>{midia=r.result; document.getElementById('preview').innerHTML=isVideo?`<video src="${midia}" controls playsinline></video>`:`<img src="${midia}">`;}; r.readAsDataURL(f);
+  let f=e.target.files[0]; if(!f) return; isVideo=f.type.startsWith('video/'); fileBlob=f;
+  document.getElementById('info').textContent='Arquivo: '+(f.size/1024/1024).toFixed(2)+' MB - '+(isVideo?'vídeo':'foto');
+  let r=new FileReader(); r.onload=()=>{ if(!isVideo){ comprimirFoto(r.result, mini=>{midia=mini; document.getElementById('preview').innerHTML=`<img src="${midia}">`;}); } else { midia=r.result; document.getElementById('preview').innerHTML=`<video src="${midia}" controls playsinline></video>`; } }; r.readAsDataURL(f);
 };
-document.getElementById('share').onclick=()=>{
-  if(!midia){ alert('Escolha uma foto ou vídeo primeiro'); return; }
-  if(mode==='VIRAL' && !isVideo){ alert('VIRAL só aceita vídeo. Troca pra POST ou escolhe um vídeo.'); return; }
-  try{
-    let posts=JSON.parse(localStorage.getItem('koneat_posts')||'[]');
-    let tipo = mode==='VIRAL' ? 'VIRAL' : 'FEED';
-    posts.unshift({id:Date.now(), tipo, midia, url:midia, legenda:document.getElementById('legenda').value, capa:'', data:Date.now(), author:'koneat_user', source:'profile'});
-    localStorage.setItem('koneat_posts',JSON.stringify(posts));
-    alert('Salvo! Indo para ' + (tipo==='VIRAL' ? 'Virais' : 'Home'));
-    location.href = tipo==='VIRAL' ? './passo2.html' : './passo4.html';
-  }catch(err){
-    alert('Erro ao salvar: vídeo muito grande. Tenta uma foto ou vídeo menor.');
+document.getElementById('share').onclick=async()=>{
+  if(!midia){ alert('Escolha foto ou vídeo primeiro'); return; }
+  if(mode==='VIRAL' && !isVideo){ alert('VIRAL só aceita vídeo!'); return; }
+  let id=Date.now(); let tipo=mode==='VIRAL'?'VIRAL':'FEED';
+  let posts=JSON.parse(localStorage.getItem('koneat_posts')||'[]');
+  if(isVideo){
+    try{ await salvarVideoDB(id, fileBlob); }catch(e){ alert('Erro ao salvar vídeo no celular'); return; }
+    posts.unshift({id, tipo, midia:'', url:'', legenda:document.getElementById('legenda').value, capa:'', data:id, author:'koneat_user', source:'profile', videoId:'vid_'+id});
+  } else {
+    posts.unshift({id, tipo, midia, url:midia, legenda:document.getElementById('legenda').value, capa:'', data:id, author:'koneat_user', source:'profile'});
   }
+  localStorage.setItem('koneat_posts',JSON.stringify(posts));
+  alert('Salvo! Indo para '+(tipo==='VIRAL'?'Virais':'Home'));
+  location.href=tipo==='VIRAL'?'./passo2.html':'./passo4.html';
 };
 </script></body></html>
