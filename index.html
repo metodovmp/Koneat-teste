@@ -3,228 +3,314 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Koneat</title>
+<title>Koneat - App Único</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;background:#fff;color:#000;padding-bottom:70px}
-header{position:sticky;top:0;background:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #eee;z-index:10}
-header h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.8px}
-/* TELAS - só 1 aparece por vez, sem recarregar */
-.screen{display:none}
+html,body{margin:0;padding:0;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial}
+body{display:flex;justify-content:center}
+#app{width:390px;max-width:100vw;height:844px;max-height:100dvh;background:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.screen{flex:1;overflow-y:auto;display:none;overscroll-behavior:contain;scroll-behavior:smooth;position:relative}
 .screen.active{display:block}
-/* STORY - componente único, + já nasce dentro */
-.stories{display:flex;gap:12px;padding:16px;overflow-x:auto}
-.story{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;position:relative}
-.story-avatar{width:66px;height:66px;border-radius:50%;background:#eef0f5;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.story-avatar.has-story{border:2px solid #00ff88}
+.screen.no-scroll{overflow:hidden}
+
+/* ===== LOGIN - preto ===== */
+#screen-login{background:#000;color:#fff;padding:24px 20px;display:none;flex-direction:column;justify-content:center}
+#screen-login.active{display:flex}
+.login-top{text-align:center;margin-bottom:32px}.login-top b{font-size:28px}.login-top span{display:block;font-size:11px;letter-spacing:3px;opacity:.6;margin-top:4px}
+.login-input{width:100%;height:52px;border-radius:26px;border:1px solid #333;background:transparent;color:#fff;padding:0 18px 0 44px;font-size:14px;outline:none;margin-bottom:12px}
+.login-wrap{position:relative}.login-wrap i{position:absolute;left:16px;top:16px;font-style:normal;opacity:.6}.eye{position:absolute;right:16px;top:15px;cursor:pointer}
+.btn-entrar{width:100%;height:52px;border-radius:26px;background:#fff;color:#000;border:none;font-weight:800;font-size:15px;cursor:pointer}
+.divisor{display:flex;align-items:center;gap:12px;margin:20px 0;color:#888;font-size:13px}.divisor:before,.divisor:after{content:"";flex:1;height:1px;background:#333}
+.btn-google{width:100%;height:52px;border-radius:26px;background:transparent;color:#fff;border:1px solid #333;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;font-weight:600}
+.login-links{text-align:center;margin-top:22px;font-size:13px;line-height:2}.login-links a{color:#fff;text-decoration:none}
+
+/* ===== HOME - BRANCA ===== */
+#screen-home{background:#fff;color:#000}
+.top-home{position:sticky;top:0;background:#fff;z-index:10;border-bottom:1px solid #eee}
+.top-home-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 0}.top-home-row h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.8px}
+.subnav{display:flex;gap:24px;padding:10px 16px}.subnav button{background:none;border:none;font-size:15px;color:#8e8e93;cursor:pointer;padding:0 0 6px}.subnav button.active{color:#000;font-weight:700;border-bottom:2px solid #000}
+.stories{display:flex;gap:12px;padding:12px 16px;height:100px;overflow-x:auto;scrollbar-width:none}.stories::-webkit-scrollbar{display:none}
+.story{flex-shrink:0;width:66px;text-align:center;background:none;border:none;cursor:pointer;position:relative;padding:0}
+.story-avatar{width:66px;height:66px;border-radius:50%;background:#eef0f5;border:2px solid #000;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}.story-avatar.has-story{border:2px solid #00ff88}
 .story-avatar img,.story-avatar video{width:100%;height:100%;object-fit:cover}
-/* O + FIXO - só existe aqui, dentro do StoryCircle */
 .story-plus{position:absolute;bottom:18px;right:0;width:26px;height:26px;border-radius:50%;background:#000;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;z-index:3}
-.story-name{font-size:12px}
-/* POST */
-.post{border-bottom:1px solid #efeff4;margin-bottom:12px}
+.story-name{font-size:12px;display:block;margin-top:6px}
+.post{border-bottom:1px solid #efeff4;margin-bottom:12px;background:#fff}
 .post-head{display:flex;justify-content:space-between;align-items:center;padding:0 16px;height:56px}
-.post-media{width:100%;aspect-ratio:4/5;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.post-media img,.post-media video{width:100%;height:100%;object-fit:cover}
-.post-actions{display:flex;justify-content:space-between;padding:12px 16px}
-.post-actions button{background:none;border:none;font-size:20px;cursor:pointer}
+.post-head-left{display:flex;align-items:center;gap:10px}.post-avatar{width:32px;height:32px;border-radius:50%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;overflow:hidden}.post-avatar img{width:100%;height:100%;object-fit:cover}
+.btn-seguir{background:#000;color:#fff;border:none;padding:6px 16px;border-radius:16px;font-size:13px;font-weight:600;cursor:pointer}
+.post-media{width:390px;max-width:100%;background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.post-media img,.post-media video{width:100%;height:auto;display:block;object-fit:contain}
+.post-media[data-ratio="1:1"]{height:390px}.post-media[data-ratio="4:5"]{height:487px}.post-media[data-ratio="16:9"]{height:219px}
+.post-media video{max-height:487px}
+.post-actions{display:flex;justify-content:space-between;padding:12px 16px}.post-actions-left{display:flex;gap:16px}.post-actions button{background:none;border:none;cursor:pointer}
+.post-actions svg{width:24px;height:24px;stroke:#000;fill:none;stroke-width:1.8}
 .post-caption{padding:0 16px 12px;font-size:14px}
-.empty{text-align:center;padding:60px 20px;color:#8e8e93;font-size:14px}
-/* CRIAR */
-.criar{padding:20px 16px}
-.criar input,.criar select{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin-bottom:12px;font-size:15px}
-.criar button{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer}
-/* PERFIL */
-.perfil-head{padding:20px 16px;text-align:center}
-.perfil-avatar{width:90px;height:90px;border-radius:50%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 10px}
-.perfil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
-.perfil-grid img,.perfil-grid video{width:100%;aspect-ratio:1;object-fit:cover;background:#000}
-/* BOTTOM NAV - fixa, 1 só */
-.bottom{position:fixed;bottom:0;left:0;right:0;height:62px;background:#121214;border-radius:20px 20px 0 0;display:flex;justify-content:space-around;align-items:center;z-index:99}
-.bottom button{background:none;border:none;color:#8e8e93;font-size:22px;cursor:pointer;width:48px;height:48px}
-.bottom button.active{color:#fff}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#000;color:#fff;padding:12px 18px;border-radius:20px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:200}
-.toast.show{opacity:1}
+.sound-btn{position:absolute;bottom:12px;right:12px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;z-index:5}
+
+/* ===== VIRAL - PRETA ===== */
+#screen-viral{background:#000;color:#fff;scroll-snap-type:y mandatory;overflow-y:auto}
+.viral-top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:linear-gradient(rgba(0,0,0,.7),transparent);transition:.25s}.viral-top.hidden{transform:translateY(-100%);opacity:0}
+.viral-item{height:782px;scroll-snap-align:start;snap-stop:always;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.viral-item video,.viral-item img{width:100%;height:100%;object-fit:cover}
+.viral-profile{position:absolute;left:16px;bottom:86px;display:flex;align-items:center;gap:10px;z-index:5}.viral-profile .btn-seguir{background:transparent;border:1px solid #fff}
+.viral-right{position:absolute;right:12px;bottom:110px;display:flex;flex-direction:column;gap:18px;z-index:5;text-align:center}.viral-right button{background:none;border:none;color:#fff;cursor:pointer}.viral-right svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:1.6}.viral-right span{font-size:12px;display:block}
+.viral-progress{position:absolute;left:0;right:0;bottom:70px;height:3px;background:rgba(255,255,255,.3);z-index:6}.viral-progress i{display:block;height:100%;background:#fff;width:0%}
+.viral-sound{position:absolute;bottom:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;z-index:5}
+
+/* ===== PLUS - PRETA ===== */
+#screen-plus{background:#000;color:#fff}
+.plus-top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px}.plus-top button{background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+.plus-tabs{display:flex;justify-content:center;gap:24px;padding:8px 0}.plus-tabs button{background:none;border:none;color:#888;font-weight:700;cursor:pointer;font-size:14px}.plus-tabs button.active{color:#fff;border-bottom:2px solid #fff;padding-bottom:4px}
+.plus-gallery{display:flex;justify-content:space-between;padding:12px 16px;font-size:14px;cursor:pointer}
+.plus-preview{height:200px;background:#111;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.plus-preview img,.plus-preview video{width:100%;height:100%;object-fit:cover}
+.plus-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;height:300px;overflow-y:auto}.plus-grid div{background:#222;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;border:2px solid transparent}.plus-grid div.sel{border-color:#fff}
+.plus-avancar{width:343px;max-width:calc(100% - 32px);height:50px;border-radius:25px;background:#fff;color:#000;border:none;font-weight:800;margin:14px auto;display:block;cursor:pointer}
+.plus-file{display:none}
+.plus-caption{width:calc(100% - 32px);margin:10px 16px;padding:12px;border-radius:12px;border:1px solid #333;background:#222;color:#fff}
+
+/* ===== PERFIL - BRANCA ===== */
+#screen-perfil{background:#fff;color:#000}
+.perfil-top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px}.perfil-top button{background:none;border:none;font-size:22px;cursor:pointer}
+.perfil-info{display:flex;align-items:center;gap:16px;padding:10px 16px}.perfil-big{width:80px;height:80px;border-radius:50%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0;overflow:hidden;cursor:pointer}.perfil-big img{width:100%;height:100%;object-fit:cover}
+.perfil-stats{display:flex;gap:18px;text-align:center;flex:1;justify-content:space-around}.perfil-stats b{display:block;font-size:16px}.perfil-stats span{font-size:12px;color:#666}
+.perfil-btns{display:flex;gap:8px;padding:10px 16px}.perfil-btns button{flex:1;height:36px;border-radius:10px;border:1px solid #ddd;background:#f5f5f5;font-weight:600;cursor:pointer}
+.perfil-tabs{display:flex;border-top:1px solid #eee;border-bottom:1px solid #eee}.perfil-tabs button{flex:1;background:none;border:none;padding:12px 0;cursor:pointer;font-size:14px;color:#888}.perfil-tabs button.active{color:#000;font-weight:700;border-bottom:2px solid #000}
+.perfil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}.perfil-item{position:relative;aspect-ratio:1;background:#eee;overflow:hidden}.perfil-item img,.perfil-item video{width:100%;height:100%;object-fit:cover}
+.perfil-trash{position:absolute;top:6px;right:6px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;cursor:pointer;z-index:2}
+.empty-perfil{text-align:center;padding:50px 20px}.btn-first{height:44px;padding:0 20px;border-radius:22px;background:#0095f6;color:#fff;border:none;font-weight:700;cursor:pointer;margin-top:14px}
+
+/* ===== BOTTOM NAV - EXATO DO EXEMPLO ===== */
+.bottom{position:absolute;left:12px;right:12px;bottom:12px;height:62px;background:#121214;border-radius:32px;display:flex;justify-content:space-around;align-items:center;z-index:99;padding:0 6px}
+.bottom button{background:transparent;border:none;cursor:pointer;width:72px;height:48px;border-radius:24px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.bottom button svg{width:28px;height:28px}
+.bottom button svg path,.bottom button svg rect,.bottom button svg circle,.bottom button svg polygon{fill:none;stroke:#fff;stroke-width:1.8}
+.bottom button.active{background:#2a2a2e}
+.bottom button.active svg path,.bottom button.active svg rect,.bottom button.active svg circle,.bottom button.active svg polygon{fill:#fff;stroke:#fff}
+.perfil-nav-avatar{width:38px;height:38px;border-radius:50%;background:#4a4a4a;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.perfil-nav-avatar img{width:100%;height:100%;object-fit:cover}
+.perfil-nav-avatar svg{width:22px;height:22px}
+
+.modal{position:absolute;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:50}.modal.show{display:flex}.modal-box{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:20px}.modal-box button{width:100%;padding:14px;background:none;border:none;border-bottom:1px solid #eee;text-align:left;cursor:pointer;font-size:15px}
+.toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);background:#000;color:#fff;padding:12px 18px;border-radius:20px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:100}.toast.show{opacity:1}
 </style>
 </head>
 <body>
+<div id="app">
 
-<header><h1>koneat</h1><span>🔔</span></header>
+<!-- LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="login-top"><b>K. KONEAT LITE</b><span>O COMEÇO</span></div>
+  <div class="login-wrap"><i>✉️</i><input class="login-input" id="loginEmail" placeholder="Digite seu e-mail."></div>
+  <div class="login-wrap"><i>🔒</i><input class="login-input" id="loginSenha" type="password" placeholder="Digite sua senha."><span class="eye" onclick="toggleSenha()">👁️</span></div>
+  <button class="btn-entrar" onclick="doLogin()">ENTRAR →</button>
+  <div class="divisor">Ou</div>
+  <button class="btn-google" onclick="doLogin()">G Continuar com Google</button>
+  <div class="login-links"><a href="#" onclick="go('perfil');return false">Não tem conta? <b>Fazer cadastro</b></a><br><a href="#" onclick="toast('Código 6 dígitos enviado!');return false">Esqueceu sua senha? <b>Recuperar acesso</b></a></div>
+</div>
 
-<!-- ============ APP ============ -->
-<main id="app">
+<!-- HOME BRANCA -->
+<div id="screen-home" class="screen">
+  <div class="top-home"><div class="top-home-row"><h1>Koneat</h1><div>🔍 🔔</div></div><div class="subnav"><button class="active">Pra você</button><button>Seguindo</button><button>Explorar</button></div></div>
+  <div class="stories" id="storiesBar"></div>
+  <div id="homeFeed"></div>
+</div>
 
-  <!-- HOME -->
-  <section id="screen-home" class="screen active">
-    <div class="stories" id="storiesBar"></div>
-    <div id="homeFeed"></div>
-  </section>
+<!-- VIRAL PRETA -->
+<div id="screen-viral" class="screen no-scroll">
+  <div class="viral-top" id="viralTop"><b>VIRAL START</b><span>🔍 &nbsp; ☰</span></div>
+  <div id="viralFeed"></div>
+</div>
 
-  <!-- REELS - VITRINE, NÃO CRIA NADA -->
-  <section id="screen-reels" class="screen">
-    <div id="reelsFeed"></div>
-  </section>
+<!-- PLUS PRETA -->
+<div id="screen-plus" class="screen no-scroll">
+  <div class="plus-top"><button onclick="go('home')">✕</button><b>PLUS</b><span style="width:20px"></span></div>
+  <div class="plus-tabs"><button class="active" onclick="setPlusTipo(this,'FEED')">POST</button><button onclick="setPlusTipo(this,'STORY')">STORY</button><button onclick="setPlusTipo(this,'VIRAL')">VÍDEO</button></div>
+  <div class="plus-gallery" onclick="document.getElementById('plusFile').click()"><span>Galeria ▾</span><span>Seleção múltipla ☐ &nbsp; 📷 Câmera</span></div>
+  <div class="plus-preview" id="plusPreview"><span style="color:#888">Faça um post no feed</span></div>
+  <div class="plus-grid" id="plusGrid"></div>
+  <input type="file" id="plusFile" class="plus-file" accept="image/*,video/*" multiple>
+  <input type="text" id="plusCaption" class="plus-caption" placeholder="Legenda...">
+  <button class="plus-avancar" onclick="publicarPlus()">Avançar</button>
+</div>
 
-  <!-- CRIAR - ÚNICO LUGAR QUE CRIA POST -->
-  <section id="screen-criar" class="screen">
-    <div class="criar">
-      <h2>Criar</h2>
-      <select id="criarTipo">
-        <option value="FEED">POST - vai pra Home e Perfil</option>
-        <option value="VIRAL">VÍDEO - vai pra Reels e Perfil</option>
-      </select>
-      <input type="file" id="criarFile" accept="image/*,video/*">
-      <input type="text" id="criarCaption" placeholder="Legenda...">
-      <button onclick="criarPost()">Publicar</button>
-      <p style="font-size:13px;color:#888">Story não se cria aqui. Story é só pelo + na Home.</p>
-    </div>
-  </section>
+<!-- PERFIL BRANCA -->
+<div id="screen-perfil" class="screen">
+  <div class="perfil-top"><b id="perfilUserTop">@koneat_user</b><button onclick="openModal()">⋮</button></div>
+  <div class="perfil-info">
+    <div class="perfil-big" id="perfilAvatar" onclick="document.getElementById('avatarInput').click()">K</div>
+    <div class="perfil-stats"><div><b id="statPosts">0</b><span>posts</span></div><div><b>0</b><span>seguidores</span></div><div><b>0</b><span>seguindo</span></div></div>
+  </div>
+  <div class="perfil-btns"><button onclick="toast('Editar perfil')">Editar perfil</button><button onclick="toast('Link copiado!')">Compartilhar perfil</button></div>
+  <div class="perfil-tabs"><button class="active" onclick="setPerfilTab(this,'TODOS')">🎛️ Todos</button><button onclick="setPerfilTab(this,'REPOST')">Reposts</button><button onclick="setPerfilTab(this,'SAVE')">Marcações</button></div>
+  <div id="perfilContent"></div>
+</div>
 
-  <!-- PERFIL - SÓ LÊ DO MESMO STORE -->
-  <section id="screen-perfil" class="screen">
-    <div class="perfil-head">
-      <div class="perfil-avatar" id="perfilAvatar">K</div>
-      <b id="perfilNome">@koneat_user</b>
-      <p id="perfilStats" style="color:#666;font-size:13px"></p>
-    </div>
-    <div class="perfil-grid" id="perfilGrid"></div>
-  </section>
-
-</main>
-
-<!-- BOTTOM NAV - 1 só, fixa -->
-<nav class="bottom">
-  <button data-go="home" class="active">🏠</button>
-  <button data-go="reels">▶️</button>
-  <button data-go="criar">➕</button>
-  <button data-go="perfil">👤</button>
+<!-- BOTTOM NAV - EXEMPLO -->
+<nav class="bottom" id="bottomNav" style="display:none">
+  <button data-go="home" class="active" onclick="go('home')"><svg viewBox="0 0 24 24"><path d="M12 2.5 L21 11.5 V20 a2 2 0 0 1 -2 2 H15.5 V14.5 a2.5 2.5 0 0 0 -5 0 V22 H5 a2 2 0 0 1 -2 -2 V11.5 Z"/></svg></button>
+  <button data-go="plus" onclick="go('plus')"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><path d="M12 7.5 V16.5 M7.5 12 H16.5" stroke-linecap="round"/></svg></button>
+  <button data-go="viral" onclick="go('viral')"><svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><polygon points="10,8.5 16,12 10,15.5"/></svg></button>
+  <button data-go="perfil" onclick="go('perfil')"><span class="perfil-nav-avatar" id="navPerfilAvatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="#fff" stroke="none"/><path d="M4 20 C4 16 7.5 14 12 14 C16.5 14 20 16 20 20" fill="#fff" stroke="none"/></svg></span></button>
 </nav>
 
+<div class="modal" id="modalPerfil"><div class="modal-box"><button onclick="toast('Configurações');closeModal()">1. Configurações</button><button onclick="toast('Privacidade');closeModal()">2. Privacidade</button><button onclick="toast('Termos');closeModal()">3. Termos</button><button onclick="closeModal()" style="text-align:center;color:#888">Fechar</button></div></div>
 <input type="file" id="storyInput" accept="image/*,video/*" style="display:none">
+<input type="file" id="avatarInput" accept="image/*" style="display:none">
 <div class="toast" id="toast"></div>
+</div>
 
 <script>
-// ============ CORE / STORE - 1 lugar só pra salvar ============
-const KEY = 'koneat_posts_v2';
-const KEY_STORIES = 'koneat_stories_v2';
-function getUser(){ return localStorage.getItem('koneat_username') || 'koneat_user'; }
-function getPosts(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
-function savePosts(p){ localStorage.setItem(KEY, JSON.stringify(p)); }
-function getStories(){ try{ return JSON.parse(localStorage.getItem(KEY_STORIES)||'[]'); }catch(e){ return []; } }
-function saveStories(s){ localStorage.setItem(KEY_STORIES, JSON.stringify(s)); }
-function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
-
-// ============ NAVEGAÇÃO - troca tela sem recarregar ============
+const KEY='koneat_v5_posts', KEY_S='koneat_v5_stories';
+function getUser(){return localStorage.getItem('koneat_username')||'koneat_user'}
+function getPosts(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+function savePosts(p){localStorage.setItem(KEY,JSON.stringify(p))}
+function getStories(){try{return JSON.parse(localStorage.getItem(KEY_S)||'[]')}catch(e){return[]}}
+function saveStories(s){localStorage.setItem(KEY_S,JSON.stringify(s))}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function toggleSenha(){const i=document.getElementById('loginSenha');i.type=i.type==='password'?'text':'password'}
+function doLogin(){const e=document.getElementById('loginEmail').value; if(e) localStorage.setItem('koneat_username',e.split('@')[0]); go('perfil'); toast('Bem-vindo ao Koneat!')}
 function go(screen){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+screen).classList.add('active');
-  document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active', b.dataset.go===screen));
+  document.getElementById('bottomNav').style.display = screen==='login' ? 'none':'flex';
+  document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.go===screen));
   if(screen==='home') renderHome();
-  if(screen==='reels') renderReels();
+  if(screen==='viral') renderViral();
   if(screen==='perfil') renderPerfil();
+  if(screen==='plus') renderPlusGrid();
 }
-document.querySelectorAll('.bottom button').forEach(b=>b.addEventListener('click', ()=>go(b.dataset.go)));
+function openModal(){document.getElementById('modalPerfil').classList.add('show')}
+function closeModal(){document.getElementById('modalPerfil').classList.remove('show')}
 
-// ============ COMPONENTE: StoryCircle - + já nasce dentro ============
+function calcRatio(w,h){const r=w/h; if(Math.abs(r-1)<0.08) return '1:1'; if(Math.abs(r-0.8)<0.08) return '4:5'; if(Math.abs(r-1.777)<0.12) return '16:9'; if(Math.abs(r-1.25)<0.08) return '5:4'; if(Math.abs(r-1.333)<0.08) return '4:3'; if(Math.abs(r-0.75)<0.08) return '3:4'; if(Math.abs(r-0.666)<0.08) return '2:3'; if(Math.abs(r-0.562)<0.08) return '9:16'; return '4:5';}
+function getFileDuration(file){return new Promise(res=>{if(!file.type.startsWith('video')) return res(0); const v=document.createElement('video'); v.preload='metadata'; v.onloadedmetadata=()=>{URL.revokeObjectURL(v.src);res(v.duration)}; v.onerror=()=>res(0); v.src=URL.createObjectURL(file);});}
+function getImageSize(file){return new Promise(res=>{const img=new Image(); img.onload=()=>{URL.revokeObjectURL(img.src);res({w:img.naturalWidth,h:img.naturalHeight})}; img.onerror=()=>res({w:1080,h:1350}); img.src=URL.createObjectURL(file);});}
+
+let plusTipo='home', plusMidia='', plusMediaType='image', plusRatio='4:5';
+function setPlusTipo(btn,t){
+  plusTipo = t==='FEED' ? 'home' : t==='STORY' ? 'story' : 'viral';
+  document.querySelectorAll('.plus-tabs button').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.getElementById('plusPreview').innerHTML='<span style="color:#888">Faça um post no feed</span>'; plusMidia='';
+}
+function renderPlusGrid(){document.getElementById('plusGrid').innerHTML=['🌄','🏖️','🍔','🐶','🌆','🎬','📸','🎮','🌸'].map(e=>`<div onclick="selectPlus(this,'${e}')">${e}</div>`).join('');}
+function selectPlus(el,emoji){document.querySelectorAll('.plus-grid div').forEach(d=>d.classList.remove('sel')); el.classList.add('sel'); plusMidia=emoji; plusMediaType='image'; plusRatio='1:1'; document.getElementById('plusPreview').innerHTML=`<span style="font-size:64px">${emoji}</span>`;}
+document.getElementById('plusFile').addEventListener('change', async (e)=>{
+  const file=e.target.files[0]; if(!file) return;
+  if(file.type.startsWith('image')){ if(file.size>10*1024*1024) return toast('Imagem até 10MB'); if(!['image/jpeg','image/png','image/webp'].includes(file.type)) return toast('Use JPG / PNG / WEBP'); const sz=await getImageSize(file); plusRatio=calcRatio(sz.w,sz.h); }
+  if(file.type.startsWith('video')){ if(file.size>100*1024*1024) return toast('Vídeo até 100MB'); const dur=await getFileDuration(file); if(plusTipo==='home' && dur>180) return toast('Somente vídeo Feed de até 3:00 minutos'); if(plusTipo==='viral' && dur>90) return toast('Somente Viral de 1:30 minutos'); }
+  plusMediaType=file.type.startsWith('video')?'video':'image';
+  const reader=new FileReader(); reader.onload=()=>{ plusMidia=reader.result; document.getElementById('plusPreview').innerHTML = plusMediaType==='video' ? `<video src="${plusMidia}" muted playsinline></video>` : `<img src="${plusMidia}">`; }; reader.readAsDataURL(file);
+});
+async function publicarPlus(){
+  if(!plusMidia) return toast('Escolhe uma foto ou vídeo');
+  if(plusTipo==='story'){ const s=getStories(); s.unshift({id:Date.now(),author:getUser(),midia:plusMidia,mediaType:plusMediaType,expiresAt:Date.now()+24*60*60*1000}); saveStories(s); toast('Story publicado! 24h'); go('home'); return; }
+  const arr=getPosts(); arr.unshift({id:'post_'+Date.now(),author:getUser(),midia:plusMidia,emoji:plusMidia.length<10,mediaType:plusMediaType,tipo:plusTipo,ratio:plusRatio,caption:document.getElementById('plusCaption').value,createdAt:Date.now()}); savePosts(arr);
+  setPerfilTab(document.querySelector('.perfil-tabs button'),'TODOS'); toast('Publicado!'); go('perfil');
+}
+
 function renderStories(){
-  const bar = document.getElementById('storiesBar');
-  const stories = getStories().filter(s=>Date.now() < (s.expiresAt||0));
-  const meus = stories.filter(s=>s.author===getUser());
-  const outros = stories.filter(s=>s.author!==getUser());
-  // Grupo dos outros por autor
-  const grupos = {};
-  outros.forEach(s=>{ if(!grupos[s.author]) grupos[s.author]=[]; grupos[s.author].push(s); });
-
-  let html = `
-    <button class="story" onclick="handleMeuStory()">
-      <span style="position:relative;display:block">
-        <span class="story-avatar ${meus.length?'has-story':''}" id="meuAvatar">
-          ${meus.length ? `<img src="${meus[0].midia}">` : '😀'}
-        </span>
-        <span class="story-plus">+</span>
-      </span>
-      <span class="story-name">seu story</span>
-    </button>`;
-
-  Object.keys(grupos).forEach(author=>{
-    const s = grupos[author][0];
-    html += `<button class="story" onclick="openStory('${author}')">
-      <span class="story-avatar"><img src="${s.midia}"></span>
-      <span class="story-name">${author}</span>
-    </button>`;
-  });
-  bar.innerHTML = html;
+  const stories=getStories().filter(s=>Date.now()<s.expiresAt);
+  const meus=stories.filter(s=>s.author===getUser());
+  let html=`<button class="story" onclick="handleMeuStory()"><span style="position:relative;display:block"><span class="story-avatar ${meus.length?'has-story':''}">${meus.length?`<img src="${meus[0].midia}">`:'🐺'}</span><span class="story-plus">+</span></span><span class="story-name">seu story</span></button>`;
+  html+=['lobo_amigo','maria','joao'].map(n=>`<button class="story"><span class="story-avatar"><span style="font-size:28px">🦊</span></span><span class="story-name">${n}</span></button>`).join('');
+  document.getElementById('storiesBar').innerHTML=html;
 }
+function handleMeuStory(){ const meus=getStories().filter(s=>s.author===getUser() && Date.now()<s.expiresAt); if(meus.length) toast('Abrindo seu story... 30s'); else document.getElementById('storyInput').click(); }
+document.addEventListener('click',e=>{ if(e.target.classList.contains('story-plus')){ e.stopPropagation(); document.getElementById('storyInput').click(); }});
+document.getElementById('storyInput').addEventListener('change',e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ const s=getStories(); s.unshift({id:Date.now(),author:getUser(),midia:r.result,mediaType:f.type.startsWith('video')?'video':'image',expiresAt:Date.now()+24*60*60*1000}); saveStories(s); renderHome(); toast('Story publicado!'); }; r.readAsDataURL(f); });
 
-function handleMeuStory(){
-  const meus = getStories().filter(s=>s.author===getUser() && Date.now() < s.expiresAt);
-  if(meus.length) { toast('Abrindo seu story...'); openStory(getUser()); }
-  else document.getElementById('storyInput').click();
+// Avatar - troca nav + perfil juntos
+document.getElementById('avatarInput').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader(); r.onload=()=>{ localStorage.setItem('koneat_avatar',r.result); updateAvatar(r.result); toast('Foto atualizada!'); }; r.readAsDataURL(f);
+});
+function updateAvatar(url){
+  if(!url) return;
+  document.getElementById('perfilAvatar').innerHTML=`<img src="${url}">`;
+  document.getElementById('navPerfilAvatar').innerHTML=`<img src="${url}">`;
 }
-// Clicar no + abre galeria, nunca abre story
-document.addEventListener('click', (e)=>{
-  if(e.target.classList.contains('story-plus')){
-    e.stopPropagation();
-    document.getElementById('storyInput').click();
-  }
-});
-
-document.getElementById('storyInput').addEventListener('change', (e)=>{
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const arr = getStories();
-    arr.unshift({ id: Date.now(), author: getUser(), midia: reader.result, mediaType: file.type.startsWith('video')?'video':'image', expiresAt: Date.now()+24*60*60*1000 });
-    saveStories(arr); e.target.value=''; renderStories(); toast('Story publicado!');
-  };
-  reader.readAsDataURL(file);
-});
-function openStory(author){ toast('Story de @'+author); }
-
-// ============ HOME / REELS / PERFIL - todos leem do mesmo STORE ============
-function postCard(p){
-  const isVideo = p.mediaType==='video';
-  return `<article class="post">
-    <div class="post-head"><b>@${p.author}</b><span style="font-size:12px;color:#888">${p.tipo}</span></div>
-    <div class="post-media">${isVideo ? `<video src="${p.midia}" controls playsinline></video>` : `<img src="${p.midia}">`}</div>
-    <div class="post-actions"><span><button onclick="likePost('${p.id}')">❤️</button> <button>💬</button></span><button>🔖</button></div>
-    ${p.caption ? `<div class="post-caption"><b>@${p.author}</b> ${p.caption}</div>` : ''}
-  </article>`;
+function setupAudio(video, btn){
+  video.muted=true; if(btn) btn.textContent='🔇';
+  setTimeout(()=>{ video.muted=false; video.play().catch(()=>{ video.muted=true; if(btn) btn.textContent='🔇'; }); if(btn) btn.textContent= video.muted ? '🔇' : '🔊'; },1000);
+}
+function svgActions(){
+  return `<div class="post-actions"><div class="post-actions-left">
+    <button onclick="this.querySelector('svg').style.fill=this.querySelector('svg').style.fill==='red'?'none':'red'"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></button>
+    <button><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 21l2-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg></button>
+    <button><svg viewBox="0 0 24 24"><path d="M4 4v7h7M20 20v-7h-7M20 9A8 8 0 0 0 5.6 5.6L4 7M4 15a8 8 0 0 0 14.4 3.4L20 17"/></svg></button>
+    <button><svg viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+    <button><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+  </div></div>`;
 }
 function renderHome(){
   renderStories();
-  const feed = getPosts().filter(p=>p.tipo==='FEED');
-  document.getElementById('homeFeed').innerHTML = feed.length ? feed.map(postCard).join('') : `<div class="empty">Nenhuma publicação.<br>Crie no Criar!</div>`;
+  const feed=getPosts().filter(p=>p.tipo==='home');
+  document.getElementById('homeFeed').innerHTML = feed.length ? feed.map(p=>`
+    <article class="post">
+      <div class="post-head"><div class="post-head-left"><div class="post-avatar">🐺</div><b>@${p.author}</b></div><div style="display:flex;gap:8px;align-items:center"><button class="btn-seguir">Seguir</button><span>⋯</span></div></div>
+      <div class="post-media" data-ratio="${p.ratio||'4:5'}">
+        ${p.emoji?`<span style="font-size:120px;padding:40px">${p.midia}</span>` : p.mediaType==='video' ? `<video src="${p.midia}" muted playsinline loop onclick="toggleHomeVideo(this)"></video><button class="sound-btn" onclick="event.stopPropagation();toggleSoundBtn(this)">🔇</button>` : `<img src="${p.midia}">`}
+      </div>
+      ${svgActions()}
+      <div class="post-caption"><b>@${p.author}</b> ${p.caption||''}</div>
+    </article>`).join('') : `<div style="text-align:center;padding:40px;color:#888">Nenhum post ainda.<br>Vai no PLUS e cria!</div>`;
+  document.querySelectorAll('#homeFeed video').forEach(v=>{ const btn=v.parentElement.querySelector('.sound-btn'); setupAudio(v,btn); });
 }
-function renderReels(){
-  const feed = getPosts().filter(p=>p.tipo==='VIRAL');
-  document.getElementById('reelsFeed').innerHTML = feed.length ? feed.map(postCard).join('') : `<div class="empty">Nenhum vídeo viral.<br>Crie um vídeo no Criar!</div>`;
-}
-function renderPerfil(){
-  const meus = getPosts().filter(p=>p.author===getUser());
-  document.getElementById('perfilNome').textContent = '@'+getUser();
-  document.getElementById('perfilStats').textContent = meus.length + ' publicações';
-  document.getElementById('perfilGrid').innerHTML = meus.length ? meus.map(p=> p.mediaType==='video' ? `<video src="${p.midia}" muted></video>` : `<img src="${p.midia}">`).join('') : `<div class="empty" style="grid-column:1/4">Nada aqui ainda.<br>Posta no Criar que aparece aqui!</div>`;
-}
-function likePost(id){ toast('Curtiu!'); }
+function toggleHomeVideo(v){ if(v.paused) v.play(); else v.pause(); }
+function toggleSoundBtn(btn){ const v=btn.parentElement.querySelector('video'); if(!v) return; v.muted=!v.muted; btn.textContent=v.muted?'🔇':'🔊'; }
 
-// ============ CRIAR - único lugar que salva post ============
-function criarPost(){
-  const file = document.getElementById('criarFile').files[0];
-  if(!file) return toast('Escolhe uma foto ou vídeo');
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const arr = getPosts();
-    arr.unshift({ id: 'post_'+Date.now(), author: getUser(), midia: reader.result, mediaType: file.type.startsWith('video')?'video':'image', tipo: document.getElementById('criarTipo').value, caption: document.getElementById('criarCaption').value, createdAt: Date.now() });
-    savePosts(arr);
-    document.getElementById('criarFile').value=''; document.getElementById('criarCaption').value='';
-    toast('Publicado! Vai ver no Perfil.');
-    go('perfil');
+function renderViral(){
+  const feed=getPosts().filter(p=>p.tipo==='viral');
+  const demo = feed.length ? feed : [{id:'demo',author:'koneat',midia:'🎬',emoji:true,caption:'Vídeo demo - posta um VÍDEO no PLUS'}];
+  document.getElementById('viralFeed').innerHTML = demo.map(p=>`
+    <div class="viral-item" onclick="toggleViralPlay(this)">
+      ${p.emoji?`<div style="font-size:120px">${p.midia}</div>`:`<video src="${p.midia}" loop muted playsinline ontimeupdate="updateProgress(this)"></video>`}
+      <button class="viral-sound" onclick="event.stopPropagation();toggleSoundBtn(this)">🔇</button>
+      <div class="viral-profile"><div class="post-avatar">🐺</div><b>@${p.author}</b><button class="btn-seguir">Seguir</button></div>
+      <div class="viral-right">
+        <button><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span>1,2k</span></button>
+        <button><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 21l2-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg><span>48</span></button>
+        <button><svg viewBox="0 0 24 24"><path d="M4 4v7h7M20 20v-7h-7M20 9A8 8 0 0 0 5.6 5.6L4 7M4 15a8 8 0 0 0 14.4 3.4L20 17"/></svg><span>12</span></button>
+        <button><svg viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+        <button><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
+      </div>
+      <div class="viral-progress"><i></i></div>
+    </div>`).join('');
+  const viralScreen=document.getElementById('screen-viral');
+  viralScreen.onscroll=()=>{
+    const top=document.getElementById('viralTop');
+    if(viralScreen.scrollTop>80) top.classList.add('hidden'); else top.classList.remove('hidden');
+    document.querySelectorAll('.viral-item video').forEach(v=>{ const rect=v.getBoundingClientRect(); if(rect.top>=0 && rect.top<200) v.play().catch(()=>{}); else v.pause(); });
   };
-  reader.readAsDataURL(file);
+  const first=document.querySelector('.viral-item video');
+  if(first){ setupAudio(first, first.parentElement.querySelector('.viral-sound')); first.play().catch(()=>{}); }
 }
+function toggleViralPlay(el){
+  const v=el.querySelector('video'); if(!v) return;
+  if(v.paused) v.play(); else v.pause();
+  v.muted=!v.muted; const btn=el.querySelector('.viral-sound'); if(btn) btn.textContent=v.muted?'🔇':'🔊';
+}
+function updateProgress(video){ if(!video.duration) return; const bar=video.parentElement.querySelector('.viral-progress i'); if(bar) bar.style.width=(video.currentTime/video.duration*100)+'%'; }
 
+let perfilTab='TODOS';
+function setPerfilTab(btn,t){ perfilTab=t; document.querySelectorAll('.perfil-tabs button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderPerfil(); }
+function renderPerfil(){
+  const meus=getPosts().filter(p=>p.author===getUser());
+  document.getElementById('perfilUserTop').textContent='@'+getUser();
+  document.getElementById('statPosts').textContent=meus.length;
+  const box=document.getElementById('perfilContent');
+  if(!meus.length){ box.innerHTML=`<div class="empty-perfil"><div style="font-size:48px">👥</div><b>Capture o momento com um amigo</b><p style="color:#888;font-size:14px">Quando você compartilhar fotos e vídeos, eles aparecerão no seu perfil.</p><button class="btn-first" onclick="go('plus')">Crie seu primeiro post</button></div>`; return; }
+  box.innerHTML=`<div class="perfil-grid">${meus.map(p=>`
+    <div class="perfil-item">${p.emoji?`<span style="font-size:60px;display:flex;align-items:center;justify-content:center;height:100%">${p.midia}</span>`:`${p.mediaType==='video'?`<video src="${p.midia}" muted></video>`:`<img src="${p.midia}">`}`}
+    <button class="perfil-trash" onclick="deletePost('${p.id}')">🗑️</button></div>`).join('')}</div>`;
+}
+function deletePost(id){ if(!confirm('Remover essa publicação?')) return; savePosts(getPosts().filter(p=>String(p.id)!==String(id))); renderPerfil(); renderHome(); toast('Removido'); }
+
+// Carrega avatar salvo
+updateAvatar(localStorage.getItem('koneat_avatar'));
+if(localStorage.getItem('koneat_username')){ go('perfil'); }
 renderHome();
 </script>
 </body>
-        </html>
+</html>
