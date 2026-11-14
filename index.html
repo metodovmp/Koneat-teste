@@ -3,23 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>KONEΛT</title>
+<title>KONEΛT - App Completo</title>
 <style>
+/* ============================================================
+   1. BASE DO APP - TUDO DENTRO DE .app
+   ============================================================ */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
 html,body{width:100%;height:100%;background:#000;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow:hidden}
-.screen{display:none;width:100%;max-width:430px;height:100%;height:100dvh;margin:0 auto;background:#fff;color:#000;flex-direction:column;overflow:hidden;position:relative}
+.app{width:100%;max-width:430px;height:100%;height:100dvh;margin:0 auto;background:#000;position:relative;overflow:hidden}
+.screen{display:none;width:100%;height:100%;flex-direction:column;overflow:hidden;position:relative;background:#fff;color:#000}
 .screen.active{display:flex}
 .screen.dark{background:#000;color:#fff}
 button{font-family:inherit;cursor:pointer}
-/* AUTH */
-.auth{justify-content:center;padding:28px 24px;gap:18px;background:#000;color:#fff}
+
+/* ============================================================
+   2. LOGIN / CADASTRO / RECUPERAR - DENTRO DO APP
+   ============================================================ */
+.auth{justify-content:center;padding:28px 24px;gap:18px}
 .auth .logo{text-align:center}
-.auth .logo h1{font-size:28px;letter-spacing:2px;font-weight:900}
+.auth .logo h1{font-size:28px;letter-spacing:2px;font-weight:900;color:#fff}
 .auth .logo p{font-size:10px;letter-spacing:4px;color:#8e8e93;margin-top:6px}
-.auth h2{font-size:15px;letter-spacing:3px;text-align:center}
+.auth h2{font-size:15px;letter-spacing:3px;text-align:center;color:#fff}
 .form{width:100%}
 .field{margin-bottom:14px}
-.field label{display:block;font-size:13px;margin-bottom:6px}
+.field label{display:block;font-size:13px;margin-bottom:6px;color:#fff}
 .input{height:48px;border:1px solid rgba(255,255,255,.35);border-radius:24px;background:rgba(255,255,255,.03);display:flex;align-items:center;padding:0 16px}
 .input input{flex:1;background:none;border:none;outline:none;color:#fff;font-size:14px}
 .input input::placeholder{color:#8e8e93}
@@ -31,37 +38,43 @@ button{font-family:inherit;cursor:pointer}
 .links{display:flex;gap:8px;justify-content:center;font-size:13px;color:#8e8e93}
 .links a{text-decoration:underline;text-underline-offset:4px;cursor:pointer}
 .copy{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:11px;color:#666}
-/* NAV - CORRIGIDA */
-.nav{height:62px;background:#121214;border-radius:20px 20px 0 0;display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 10px;z-index:999}
+
+/* ============================================================
+   3. NAVEGAÇÃO INFERIOR - ORDEM DE LEITURA:
+   ESQUERDA -> DIREITA = Home / Plus / Vídeo / Perfil
+   ============================================================ */
+.nav{height:62px;background:#121214;border-radius:20px 20px 0 0;display:flex;flex-direction:row;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 10px;z-index:999}
 .nav button{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:none;border:none}
-.nav button svg{stroke:#8e8e93}
+.nav button svg{width:22px!important;height:22px!important;stroke:#8e8e93;flex-shrink:0}
 .nav button.on svg{stroke:#fff}
 .profile-active{width:32px;height:32px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center}
-/* PERFIL */
+.profile-active svg{width:16px!important;height:16px!important}
+
+/* ============================================================
+   4. PERFIL - TELA 4 (DIREITA)
+   ============================================================ */
 .profile-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
-.header-username{font-size:20px;font-weight:700;letter-spacing:-.5px;text-transform:lowercase}
+.header-username{font-size:20px;font-weight:700;text-transform:lowercase}
 .header-actions{display:flex;align-items:center;gap:16px;position:relative}
 .msg-bubble{width:24px;height:20px;background:#8e8e93;border-radius:10px;display:flex;align-items:center;justify-content:center;position:relative}
 .msg-bubble i{width:2.5px;height:2.5px;background:#fff;border-radius:50%;display:block;margin:0 1px}
 .msg-bubble:after{content:"";position:absolute;bottom:-3px;right:3px;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid #8e8e93;transform:rotate(-25deg)}
 .dropdown{position:absolute;top:34px;right:0;background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.15);width:190px;display:none;z-index:100;overflow:hidden}
 .dropdown.show{display:block}
-.dropdown a{display:flex;align-items:center;gap:10px;padding:13px 14px;font-size:14px;color:#000;text-decoration:none}
-.dropdown a+a{border-top:1px solid #f0f0f0}
+.dropdown a{display:flex;gap:10px;padding:13px 14px;font-size:14px;color:#000;text-decoration:none}
+.dropdown a+a{border-top:1px solid #f2f2f2}
 .p-head{display:flex;gap:24px;align-items:center;padding:10px 16px 0}
-.avatar{width:92px;height:92px;border-radius:50%;background:#f2f2f2;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0}
+.avatar{width:92px;height:92px;border-radius:50%;background:#f2f2f2;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .cam{position:absolute;right:2px;bottom:2px;width:26px;height:26px;background:#000;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .stats{flex:1;display:flex;justify-content:space-between;text-align:center}
 .stats b{font-size:18px;display:block}
 .stats span{font-size:13px}
 .user-details{padding:12px 16px 0}
-.user-details h1{font-size:15px}
-.user-details p{font-size:13px;color:#666}
 .p-actions{display:flex;gap:8px;padding:12px 16px 0}
 .p-actions button,.p-actions a{flex:1;height:32px;background:#efefef;border:none;border-radius:8px;color:#000;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none}
 .p-tabs{display:flex;margin-top:18px;border-bottom:1px solid #eee}
-.p-tabs button{flex:1;background:none;border:none;padding:12px 0;font-size:13px;color:#999;display:flex;flex-direction:column;align-items:center;gap:4px;border-bottom:2px solid transparent}
+.p-tabs button{flex:1;background:none;border:none;padding:12px 0;font-size:13px;color:#999;border-bottom:2px solid transparent}
 .p-tabs button.on{color:#000;border-bottom-color:#000;font-weight:700}
 .p-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:30px 16px;text-align:center}
 .p-empty h2{font-size:13px;font-weight:400;color:#8e8e93}
@@ -71,29 +84,33 @@ button{font-family:inherit;cursor:pointer}
 .grid-item img,.grid-item video{width:100%;height:100%;object-fit:cover}
 .btn-del{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.7);border:none;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2}
 .badge-video{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);padding:3px;border-radius:4px;display:flex}
-/* HOME */
-.home-header{height:56px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0}
+
+/* ============================================================
+   5. HOME - TELA 1 (ESQUERDA)
+   ============================================================ */
+.home-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0}
 .home-logo{font-size:22px;font-weight:800;letter-spacing:-.8px}
 .home-header-icons{display:flex;gap:18px}
 .icon-top-btn{background:none;border:none;color:#000;display:flex}
-.subnav-wrapper{background:#fff;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0}
+.subnav-wrapper{border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0}
 .home-subnav-inner{display:flex;gap:24px;padding:0 16px;height:42px;position:relative;align-items:center}
-.subnav-tab{background:none;border:none;padding:0 0 8px;font-size:15px;font-weight:500;color:#8e8e93}
+.subnav-tab{background:none;border:none;padding:0 0 8px;font-size:15px;color:#8e8e93}
 .subnav-tab.active{color:#000;font-weight:700}
-.subnav-indicator{position:absolute;bottom:0;left:0;height:2px;background:#000;border-radius:2px;transition:all .25s}
+.subnav-indicator{position:absolute;bottom:0;left:0;height:2px;background:#000;transition:all .25s}
 .stories-bar{display:flex;gap:12px;padding:16px;border-bottom:1px solid rgba(0,0,0,.05);overflow-x:auto}
-.story-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0}
-.story-avatar{width:66px;height:66px;border-radius:50%;background:#e5e5ea;border:1px solid #d1d1d6;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;width:72px}
+.story-avatar-wrap{position:relative;width:66px;height:66px}
+.story-avatar{width:66px;height:66px;border-radius:50%;background:#e5e5ea;border:1px solid #d1d1d6;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.story-avatar svg{width:28px;height:28px}
 .story-avatar img{width:100%;height:100%;object-fit:cover}
-.story-add-badge{position:absolute;bottom:1px;right:1px;width:22px;height:22px;border-radius:50%;background:#000;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+.story-add-badge{position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:#000;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;z-index:2}
 .story-username{font-size:12px}
 .home-feed{flex:1;overflow-y:auto;padding-bottom:80px}
-.post-card{width:100%;background:#fff;border-bottom:1px solid #efeff4;margin-bottom:12px}
+.post-card{border-bottom:1px solid #efeff4;margin-bottom:12px}
 .post-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .post-author-info{display:flex;align-items:center;gap:10px}
 .author-avatar{width:32px;height:32px;border-radius:50%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;overflow:hidden}
 .author-avatar img{width:100%;height:100%;object-fit:cover}
-.author-name{font-size:14px;font-weight:600}
 .btn-follow-home{background:#000;color:#fff;border:none;padding:6px 16px;border-radius:16px;font-size:13px;font-weight:600}
 .post-media-wrapper{width:100%;aspect-ratio:1/1;background:#f2f2f7;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .post-media-wrapper img,.post-media-wrapper video{width:100%;height:100%;object-fit:cover}
@@ -108,39 +125,45 @@ button{font-family:inherit;cursor:pointer}
 .post-caption-area{padding:0 16px 12px;font-size:14px}
 .post-caption-author{font-weight:600;margin-right:6px}
 .empty-home-feed{text-align:center;padding:60px 20px;color:#8e8e93;font-size:14px;line-height:1.5}
-/* CRIAR */
-.create-header{width:100%;height:56px;display:flex;align-items:center;border-bottom:1px solid #1f1f1f;background:#000}
+
+/* ============================================================
+   6. CRIAR / PLUS - TELA 2
+   ABAS: POST / STORY / VIRAL (MESMA TELA PRA TODO MUNDO)
+   ============================================================ */
+.create-header{height:56px;display:flex;align-items:center;border-bottom:1px solid #1f1f1f;background:#000}
 .close-link{width:50px;height:100%;display:flex;align-items:center;justify-content:center;color:#fff;background:none;border:none}
 .create-tabs{height:100%;flex:1;display:flex;align-items:stretch;justify-content:center;padding-right:50px}
 .create-tab{position:relative;min-width:33.33%;height:100%;border:0;background:transparent;color:#8e8e93;font-size:15px;font-weight:600}
 .create-tab.active{color:#fff}
 .create-tab.active:after{content:"";position:absolute;height:2px;background:#fff;left:0;right:0;bottom:0}
-.gallery-toolbar{height:56px;width:100%;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
-.gallery-select{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:#fff;font-size:18px;font-weight:600}
+.gallery-toolbar{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
+.gallery-select{display:flex;gap:8px;border:0;background:transparent;color:#fff;font-size:18px;font-weight:600}
 .toolbar-actions{display:flex;gap:12px}
 .round-tool{width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;justify-content:center}
 .media-area{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:10px;position:relative}
 .empty-state{display:flex;flex-direction:column;align-items:center;gap:16px;color:#8e8e93;text-align:center}
-.empty-state p{font-size:16px;font-weight:500}
 .media-preview{display:none;width:100%;height:100%;object-fit:contain}
 .advance-button{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);min-width:160px;padding:0 32px;height:44px;border:0;border-radius:22px;background:#fff;color:#000;font-size:15px;font-weight:600;z-index:30}
-.caption-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);z-index:1000;display:none;flex-direction:column;padding:20px}
+.caption-modal{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.95);z-index:1000;display:none;flex-direction:column;padding:20px}
 .caption-modal.show{display:flex}
 .caption-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.caption-header h2{font-size:18px;font-weight:700;color:#fff}
+.caption-header h2{font-size:18px;color:#fff}
 .btn-back,.btn-publish{background:none;border:none;color:#fff;font-size:15px;font-weight:700}
 .btn-publish{color:#00ff88}
-.caption-body{display:flex;gap:16px;align-items:flex-start}
+.caption-body{display:flex;gap:16px}
 .caption-thumb{width:84px;height:84px;border-radius:12px;object-fit:cover;background:#222}
 .caption-text{flex:1;height:120px;background:transparent;border:none;color:#fff;font-size:15px;resize:none;outline:none}
 .caption-text::placeholder{color:#8e8e93}
-.loading{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:2000;display:none;align-items:center;justify-content:center}
+.loading{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:2000;display:none;align-items:center;justify-content:center}
 .loading.show{display:flex}
-.loading-box{background:#18181b;border:1px solid rgba(255,255,255,.1);padding:24px 28px;border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
-/* VÍDEO */
-.video-header{position:absolute;top:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:50;background:rgba(0,0,0,.85);border-bottom:1px solid rgba(255,255,255,.08);transition:.25s}
+.loading-box{background:#18181b;padding:24px 28px;border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:16px}
+
+/* ============================================================
+   7. VÍDEO / VIRAL - TELA 3
+   ============================================================ */
+.video-header{position:absolute;top:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;z-index:50;background:rgba(0,0,0,.85);transition:.25s}
 .video-header.hidden{transform:translateY(-100%);opacity:0;pointer-events:none}
-.video-header h1{font-size:18px;font-weight:700;color:#fff}
+.video-header h1{font-size:18px;color:#fff}
 .header-actions-right{display:flex;gap:16px}
 .icon-btn-top{background:none;border:none;color:#fff;padding:4px}
 .reels-feed{flex:1;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
@@ -148,16 +171,16 @@ button{font-family:inherit;cursor:pointer}
 .reel-card{width:100%;height:100%;scroll-snap-align:start;position:relative;background:#000;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .reel-video{width:100%;height:100%;object-fit:cover}
 .btn-sound{position:absolute;top:72px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;z-index:30}
-.play-ind{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);width:64px;height:64px;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;opacity:0;pointer-events:none;transition:.2s;z-index:25}
+.play-ind{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);width:64px;height:64px;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;opacity:0;transition:.2s;z-index:25}
 .play-ind.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.progress{position:absolute;bottom:62px;left:0;right:0;height:2.5px;background:rgba(255,255,255,.2);z-index:20}
+.progress{position:absolute;bottom:62px;left:0;right:0;height:2.5px;background:rgba(255,255,255,.2)}
 .progress-fill{height:100%;width:0%;background:#d1d1d6}
 .video-footer{position:absolute;bottom:80px;left:16px;display:flex;flex-direction:column;gap:8px;z-index:10}
 .creator-row{display:flex;align-items:center;gap:10px}
 .creator-av{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;background:#111}
 .creator-name{font-size:15px;font-weight:700;color:#fff}
 .btn-follow{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.6);color:#fff;padding:4px 14px;border-radius:12px;font-size:13px;font-weight:600}
-.video-actions{position:absolute;right:16px;bottom:85px;display:flex;flex-direction:column;align-items:center;gap:22px;z-index:10}
+.video-actions{position:absolute;right:16px;bottom:85px;display:flex;flex-direction:column;gap:22px;z-index:10}
 .action-item{background:none;border:none;color:#fff;display:flex;flex-direction:column;align-items:center;gap:2px}
 .action-item svg{width:26px;height:26px}
 .action-item.liked svg{fill:#e74c3c;stroke:#e74c3c}
@@ -165,7 +188,7 @@ button{font-family:inherit;cursor:pointer}
 .action-item.reposted svg{stroke:#00ff88}
 .decisions{position:absolute;top:50px;right:16px;background:#fff;width:200px;border-radius:16px;display:none;flex-direction:column;padding:8px 0;z-index:100;color:#000}
 .decisions.show{display:flex}
-.decision-header{padding:10px 16px;font-size:14px;font-weight:700;border-bottom:1px solid #f0f0f0}
+.decision-header{padding:10px 16px;font-weight:700;border-bottom:1px solid #f0f0f0}
 .decision-item{padding:10px 16px;font-size:13px;font-weight:600;color:#333}
 .decision-footer{padding:8px 16px;font-size:11px;color:#8e8e93;border-top:1px solid #f0f0f0}
 .empty-video{flex:1;display:flex;align-items:center;justify-content:center;color:#8e8e93;font-size:15px;text-align:center;padding:20px}
@@ -174,92 +197,120 @@ button{font-family:inherit;cursor:pointer}
 </style>
 </head>
 <body>
+<!-- ============================================================
+     APP INTEIRO - COMEÇA AQUI
+     ORDEM DE LEITURA DO CÓDIGO:
+     1. Login -> 2. Cadastro -> 3. Recuperar
+     4. Home -> 5. Perfil -> 6. Plus/Criar -> 7. Vídeo
+     ============================================================ -->
+<div class="app">
 
-<section id="screen-login" class="screen auth dark active">
-  <div class="logo"><h1>KONEΛT</h1><p>O COMEÇO</p></div>
-  <div class="form"><form id="loginForm">
-    <div class="field"><label>E-mail</label><div class="input"><input type="email" id="loginEmail" placeholder="Digite seu e-mail." required></div></div>
-    <div class="field"><label>Senha</label><div class="input"><input type="text" id="loginPass" placeholder="Digite sua senha." required><button type="button" class="eye" id="toggleLogin"><svg id="eyeLogin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></div>
-    <button class="btn-main">ENTRAR →</button>
-  </form><div class="divider"><span>Ou</span></div><button class="btn-google" id="btnGoogle">G &nbsp; Entrar com Google</button></div>
-  <div class="links"><a onclick="go('cadastro')">Criar nova conta</a><span>•</span><a onclick="go('recuperar')">Recuperar acesso</a></div>
-  <div class="copy">© 2027 Systendance.</div>
+<!-- ================= 1. LOGIN ================= -->
+<section id="screen-login" class="screen dark auth active">
+<div class="logo"><h1>KONEΛT</h1><p>O COMEÇO</p></div>
+<div class="form"><form id="loginForm">
+<div class="field"><label>E-mail</label><div class="input"><input type="email" id="loginEmail" placeholder="Digite seu e-mail." required></div></div>
+<div class="field"><label>Senha</label><div class="input"><input type="text" id="loginPass" placeholder="Digite sua senha." required><button type="button" class="eye" id="toggleLogin"><svg id="eyeLogin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></div>
+<button class="btn-main">ENTRAR →</button>
+</form><div class="divider"><span>Ou</span></div><button class="btn-google" id="btnGoogle">G &nbsp; Entrar com Google</button></div>
+<div class="links"><a onclick="go('cadastro')">Criar nova conta</a><span>•</span><a onclick="go('recuperar')">Recuperar acesso</a></div>
+<div class="copy">© 2027 Systendance.</div>
 </section>
+<!-- ================= FIM LOGIN ================= -->
 
-<section id="screen-cadastro" class="screen auth dark">
-  <h2>CRIE SUA CONTA</h2><div class="form"><form id="signupForm">
-    <div class="field"><label>Nome de usuário</label><div class="input"><input type="text" id="cadUser" placeholder="Digite seu @usuario" required></div></div>
-    <div class="field"><label>E-mail</label><div class="input"><input type="email" id="cadEmail" placeholder="Digite seu e-mail" required></div></div>
-    <div class="field"><label>Senha</label><div class="input"><input type="text" id="cadPass" placeholder="Digite sua senha" required><button type="button" class="eye" id="toggleCad"><svg id="eyeCad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></div>
-    <button class="btn-main">CONTINUAR</button></form></div>
-  <div class="links"><a onclick="go('login')">Já tem conta? Voltar ao Login</a></div>
+<!-- ================= 2. CADASTRO ================= -->
+<section id="screen-cadastro" class="screen dark auth">
+<h2>CRIE SUA CONTA</h2><div class="form"><form id="signupForm">
+<div class="field"><label>Nome de usuário</label><div class="input"><input type="text" id="cadUser" placeholder="Digite seu @usuario" required></div></div>
+<div class="field"><label>E-mail</label><div class="input"><input type="email" id="cadEmail" placeholder="Digite seu e-mail" required></div></div>
+<div class="field"><label>Senha</label><div class="input"><input type="text" id="cadPass" placeholder="Digite sua senha" required><button type="button" class="eye" id="toggleCad"><svg id="eyeCad" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></div></div>
+<button class="btn-main">CONTINUAR</button></form></div>
+<div class="links"><a onclick="go('login')">Já tem conta? Voltar ao Login</a></div>
 </section>
+<!-- ================= FIM CADASTRO ================= -->
 
-<section id="screen-recuperar" class="screen auth dark">
-  <h2>RECUPERAR ACESSO</h2><div class="form"><form id="recoveryForm"><div class="field"><label>E-mail da conta</label><div class="input"><input type="email" id="recEmail" placeholder="Digite seu e-mail" required></div></div><button class="btn-main">ENVIAR CÓDIGO</button></form></div>
-  <div class="links"><a onclick="go('login')">Voltar ao Login</a></div>
+<!-- ================= 3. RECUPERAR ================= -->
+<section id="screen-recuperar" class="screen dark auth">
+<h2>RECUPERAR ACESSO</h2><div class="form"><form id="recoveryForm"><div class="field"><label>E-mail da conta</label><div class="input"><input type="email" id="recEmail" placeholder="Digite seu e-mail" required></div></div><button class="btn-main">ENVIAR CÓDIGO</button></form></div>
+<div class="links"><a onclick="go('login')">Voltar ao Login</a></div>
 </section>
+<!-- ================= FIM RECUPERAR ================= -->
 
+<!-- ================= 4. HOME - 1º BOTÃO DA BARRA (ESQUERDA) ================= -->
 <section id="screen-home" class="screen">
-  <header class="home-header"><h1 class="home-logo">koneat</h1><div class="home-header-icons"><button class="icon-top-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button><button class="icon-top-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M12 2v2"/></svg></button></div></header>
-  <div class="subnav-wrapper"><nav class="home-subnav-inner"><button class="subnav-tab active">pra você</button><button class="subnav-tab">seguindo</button><button class="subnav-tab">explorar</button><div class="subnav-indicator" id="subnavIndicator"></div></nav></div>
-  <main class="home-feed"><section class="stories-bar"><div class="story-item" onclick="go('plus')"><div class="story-avatar" id="storyAvatar"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="story-add-badge">+</div></div><span class="story-username">seu story</span></div></section><section id="postsDynamicFeed"><div class="empty-home-feed" id="homeEmpty">Nenhuma publicação no momento.<br>Crie um post para começar!</div></section></main>
-  <nav class="nav"><button data-go="home" class="on"><svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M22 20v-7.826a2 2 0 0 0-.613-1.43l-8-7.826a2 2 0 0 0-2.774 0l-8 7.826A2 2 0 0 0 2 12.174V20a2 2 0 0 0 2 2h4.5a.5.5 0 0 0 .5-.5v-5a2.5 2.5 0 0 1 5 0v5a.5.5 0 0 0 .5.5H19a2 2 0 0 0 2-2z"/></svg></button><button data-go="plus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#8e8e93" stroke-width="1.8" fill="none"></rect><path d="M12 7v10M7 12h10" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/></svg></button><button data-go="video"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#8e8e93" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="none"/></svg></button><button data-go="perfil"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button></nav>
+<header class="home-header"><h1 class="home-logo">koneat</h1><div class="home-header-icons"><button class="icon-top-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button><button class="icon-top-btn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></button></div></header>
+<div class="subnav-wrapper"><nav class="home-subnav-inner"><button class="subnav-tab active">pra você</button><button class="subnav-tab">seguindo</button><button class="subnav-tab">explorar</button><div class="subnav-indicator" id="subnavIndicator"></div></nav></div>
+<main class="home-feed">
+<!-- STORY -->
+<section class="stories-bar"><div class="story-item" onclick="openCreate('story')"><div class="story-avatar-wrap"><div class="story-avatar" id="storyAvatar"><svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="story-add-badge">+</div></div><span class="story-username">seu story</span></div></section>
+<!-- FEED -->
+<section id="postsDynamicFeed"><div class="empty-home-feed" id="homeEmpty">Nenhuma publicação no momento.<br>Crie um post para começar!</div></section>
+</main>
+<!-- NAV - ORDEM: Home / Plus / Vídeo / Perfil -->
+<nav class="nav"><button data-go="home" class="on"><svg viewBox="0 0 24 24" fill="#fff"><path d="M22 20v-7.826a2 2 0 0 0-.613-1.43l-8-7.826a2 2 0 0 0-2.774 0l-8 7.826A2 2 0 0 0 2 12.174V20a2 2 0 0 0 2 2h4.5a.5.5 0 0 0 .5-.5v-5a2.5 2.5 0 0 1 5 0v5a.5.5 0 0 0 .5.5H19a2 2 0 0 0 2-2z"/></svg></button><button data-go="plus"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#8e8e93" stroke-width="1.8" fill="none"></rect><path d="M12 7v10M7 12h10" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/></svg></button><button data-go="video"><svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="none"/></svg></button><button data-go="perfil"><svg viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button></nav>
 </section>
+<!-- ================= FIM HOME ================= -->
 
+<!-- ================= 5. PERFIL - 4º BOTÃO DA BARRA (DIREITA) ================= -->
 <section id="screen-perfil" class="screen">
-  <header class="profile-header"><div class="header-username">koneat_user</div><div class="header-actions"><div class="msg-bubble"><i></i><i></i><i></i></div><div style="position:relative"><button id="menuBtn" style="background:none;border:none;color:#000"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button><div class="dropdown" id="dropdownMenu"><a href="#" onclick="alert('Configurações em breve');return false">Configurações</a><a href="#" onclick="alert('Privacidade em breve');return false">Privacidade</a><a href="#" onclick="alert('Termos em breve');return false">Termos</a></div></div></div></header>
-  <div class="p-head"><div style="position:relative"><div class="avatar" id="avatarBox"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.3"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><div class="cam" onclick="document.getElementById('avatarInput').click()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div><input type="file" id="avatarInput" accept="image/*" hidden></div><div class="stats"><div><b id="countPosts">0</b><span>posts</span></div><div><b>0</b><span>seguidores</span></div><div><b>0</b><span>seguindo</span></div></div></div>
-  <div class="user-details"><h1>Koneat User</h1><p>@koneat_user</p></div>
-  <div class="p-actions"><a href="#" onclick="return false">Editar perfil</a><button>Compartilhar perfil</button></div>
-  <nav class="p-tabs"><button class="on">Todos</button><button>Reposts</button><button>Marcações</button></nav>
-  <div class="p-empty" id="perfilEmpty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.3"><circle cx="8.5" cy="8.5" r="3"></circle><path d="M3.5 18c0-2.5 2.2-4 5-4s5 1.5 5 4"></path><circle cx="15.5" cy="8.5" r="3"></circle><path d="M15.5 14c2.8 0 5 1.5 5 4"></path></svg><h2>Compartilhe seu primeiro momento com o koneat</h2><button class="btn-first" onclick="go('plus')">Crie seu primeiro post</button></div>
-  <div class="grid" id="perfilGrid"></div>
-  <nav class="nav"><button data-go="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></button><button data-go="plus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M12 7v10M7 12h10" stroke-linecap="round"/></svg></button><button data-go="video"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="4"></rect><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></button><button data-go="perfil" class="on"><div class="profile-active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div></button></nav>
+<header class="profile-header"><div class="header-username">koneat_user</div><div class="header-actions"><div class="msg-bubble"><i></i><i></i><i></i></div><div style="position:relative"><button id="menuBtn" style="background:none;border:none;color:#000"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button><div class="dropdown" id="dropdownMenu"><a href="#" onclick="alert('Configurações em breve');return false">Configurações</a><a href="#" onclick="alert('Privacidade em breve');return false">Privacidade</a><a href="#" onclick="alert('Termos em breve');return false">Termos</a></div></div></div></header>
+<div class="p-head"><div style="position:relative"><div class="avatar" id="avatarBox"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.3"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><div class="cam" onclick="document.getElementById('avatarInput').click()"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div><input type="file" id="avatarInput" accept="image/*" hidden></div><div class="stats"><div><b id="countPosts">0</b><span>posts</span></div><div><b>0</b><span>seguidores</span></div><div><b>0</b><span>seguindo</span></div></div></div>
+<div class="user-details"><h1>Koneat User</h1><p>@koneat_user</p></div>
+<div class="p-actions"><a href="#" onclick="return false">Editar perfil</a><button>Compartilhar perfil</button></div>
+<nav class="p-tabs"><button class="on">Todos</button><button>Reposts</button><button>Marcações</button></nav>
+<!-- BOTÃO QUE ABRE O CRIAR -->
+<div class="p-empty" id="perfilEmpty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.3"><circle cx="8.5" cy="8.5" r="3"></circle><path d="M3.5 18c0-2.5 2.2-4 5-4s5 1.5 5 4"></path><circle cx="15.5" cy="8.5" r="3"></circle><path d="M15.5 14c2.8 0 5 1.5 5 4"></path></svg><h2>Compartilhe seu primeiro momento com o koneat</h2><button class="btn-first" onclick="openCreate('post')">Crie seu primeiro post</button></div>
+<div class="grid" id="perfilGrid"></div>
+<nav class="nav"><button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></button><button data-go="plus"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"></rect><path d="M12 7v10M7 12h10" stroke-linecap="round"/></svg></button><button data-go="video"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2" y="3" width="20" height="18" rx="4"></rect><polygon points="10 8 16 12 10 16 10 8"></polygon></svg></button><button data-go="perfil" class="on"><div class="profile-active"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div></button></nav>
 </section>
+<!-- ================= FIM PERFIL ================= -->
 
+<!-- ================= 6. PLUS / CRIAR - 2º BOTÃO DA BARRA ================= -->
+<!-- ABAS: POST / STORY / VIRAL -->
 <section id="screen-plus" class="screen dark">
-  <header class="create-header"><button class="close-link" onclick="go('perfil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><nav class="create-tabs"><button class="create-tab active" data-type="post">POST</button><button class="create-tab" data-type="story">STORY</button><button class="create-tab" data-type="video">VÍDEO</button></nav></header>
-  <section class="gallery-toolbar"><button class="gallery-select" onclick="document.getElementById('postInput').click()">Galeria <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="toolbar-actions"><button class="round-tool" onclick="document.getElementById('postInput').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="15" height="15" rx="2"/><path d="M8 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></svg></button><button class="round-tool" onclick="document.getElementById('cameraInput').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h4l2-3h6l2 3h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg></button></div></section>
-  <main class="media-area" id="previewContainer"><div class="empty-state" id="emptyState"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p>Selecione uma mídia para publicar</p></div><img id="imagePreview" class="media-preview"><video id="videoPreview" class="media-preview" controls playsinline></video></main>
-  <button class="advance-button" id="advanceButton">Avançar</button>
-  <nav class="nav"><button data-go="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button><button data-go="plus" class="on"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#fff" stroke-width="2" fill="none"></rect><path d="M12 7v10M7 12h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><button data-go="video"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16"/></svg></button><button data-go="perfil"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button></nav>
-  <input type="file" id="postInput" accept="image/*,video/*" hidden><input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+<header class="create-header"><button class="close-link" onclick="go('perfil')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><nav class="create-tabs"><button class="create-tab active" data-type="post">POST</button><button class="create-tab" data-type="story">STORY</button><button class="create-tab" data-type="viral">VIRAL</button></nav></header>
+<section class="gallery-toolbar"><button class="gallery-select" onclick="document.getElementById('postInput').click()">Galeria <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button><div class="toolbar-actions"><button class="round-tool" onclick="document.getElementById('postInput').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="15" height="15" rx="2"/><path d="M8 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></svg></button><button class="round-tool" onclick="document.getElementById('cameraInput').click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h4l2-3h6l2 3h4a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><circle cx="12" cy="13" r="4"/></svg></button></div></section>
+<main class="media-area" id="previewContainer"><div class="empty-state" id="emptyState"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><p id="previewText">Selecione uma mídia para publicar</p></div><img id="imagePreview" class="media-preview"><video id="videoPreview" class="media-preview" controls playsinline></video></main>
+<button class="advance-button" id="advanceButton">Avançar</button>
+<nav class="nav"><button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button><button data-go="plus" class="on"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#fff" stroke-width="2" fill="none"></rect><path d="M12 7v10M7 12h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><button data-go="video"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16"/></svg></button><button data-go="perfil"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button></nav>
+<input type="file" id="postInput" accept="image/*,video/*" hidden><input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
 </section>
+<!-- ================= FIM PLUS ================= -->
 
+<!-- ================= 7. VÍDEO / VIRAL - 3º BOTÃO DA BARRA ================= -->
 <section id="screen-video" class="screen dark">
-  <header class="video-header" id="videoHeader"><h1>Virais start</h1><div class="header-actions-right"><button class="icon-btn-top"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button><button class="icon-btn-top" id="menuDecisionsBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button></div></header>
-  <div class="decisions" id="dropdownDecisions"><div class="decision-header">Decisões</div><div class="decision-item">Não tenho interesse</div><div class="decision-item">Denunciar</div><div class="decision-item" style="color:#e74c3c">Bloquear</div><div class="decision-footer">Koneat start · 1.1.4</div></div>
-  <main class="reels-feed" id="reelsContainer"><div class="empty-video" id="videoEmpty">Os vídeos virais aparecerão aqui.</div></main>
-  <nav class="nav"><button data-go="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></button><button data-go="plus"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#8e8e93" stroke-width="1.8" fill="none"></rect><path d="M12 7v10M7 12h10" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/></svg></button><button data-go="video" class="on"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#fff"></rect><polygon points="10,8 16,12 10,16" fill="#121214"></polygon></svg></button><button data-go="perfil"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button></nav>
+<header class="video-header" id="videoHeader"><h1>Virais start</h1><div class="header-actions-right"><button class="icon-btn-top"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button><button class="icon-btn-top" id="menuDecisionsBtn"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button></div></header>
+<div class="decisions" id="dropdownDecisions"><div class="decision-header">Decisões</div><div class="decision-item">Não tenho interesse</div><div class="decision-item">Denunciar</div><div class="decision-item" style="color:#e74c3c">Bloquear</div><div class="decision-footer">Koneat start · 1.1.4</div></div>
+<main class="reels-feed" id="reelsContainer"><div class="empty-video" id="videoEmpty">Os vídeos virais aparecerão aqui.</div></main>
+<nav class="nav"><button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></button><button data-go="plus"><svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#8e8e93" stroke-width="1.8" fill="none"></rect><path d="M12 7v10M7 12h10" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round"/></svg></button><button data-go="video" class="on"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#fff"></rect><polygon points="10,8 16,12 10,16" fill="#121214"></polygon></svg></button><button data-go="perfil"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></button></nav>
 </section>
+<!-- ================= FIM VÍDEO ================= -->
 
+<!-- MODAL LEGENDA + LOADING - FICAM DENTRO DO APP -->
 <div class="caption-modal" id="captionModal"><div class="caption-header"><button class="btn-back" id="closeModalBtn">Voltar</button><h2>Nova publicação</h2><button class="btn-publish" id="publishBtn">Compartilhar</button></div><div class="caption-body"><img id="modalThumb" class="caption-thumb"><textarea id="captionInput" class="caption-text" placeholder="Escreva uma legenda..."></textarea></div></div>
 <div class="loading" id="loadingOverlay"><div class="loading-box"><div class="spinner"></div><span style="font-size:15px;font-weight:600;color:#fff">Sua publicação está sendo postada</span></div></div>
 
+</div>
+<!-- ================= FIM DO APP ================= -->
 <script>
-function go(n){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  var el=document.getElementById('screen-'+n);
-  if(el) el.classList.add('active');
-  document.getElementById('dropdownMenu').classList.remove('show');
-  document.getElementById('dropdownDecisions').classList.remove('show');
-  // marca o botão certo na barra de baixo
-  document.querySelectorAll('.nav button').forEach(b=>{
-    b.classList.toggle('on', b.getAttribute('data-go')===n);
-  });
-  if(n==='home'){var t=document.querySelector('.subnav-tab.active');var ind=document.getElementById('subnavIndicator');if(t&&ind){ind.style.width=t.getBoundingClientRect().width+'px';ind.style.left=t.offsetLeft+'px';}}
-}
-document.querySelectorAll('.nav button[data-go]').forEach(b=>{
-  b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();go(this.getAttribute('data-go'));});
-});
+/* ============================================================
+   JAVASCRIPT - ORDEM DE LEITURA:
+   1. go() = troca de tela
+   2. openCreate() = abre o Criar
+   3. Login / Cadastro / Recuperar
+   4. Criar / Publicar
+   ============================================================ */
+function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));var el=document.getElementById('screen-'+n);if(el)el.classList.add('active');document.getElementById('dropdownMenu').classList.remove('show');document.getElementById('dropdownDecisions').classList.remove('show');document.querySelectorAll('.nav button').forEach(b=>{b.classList.toggle('on',b.getAttribute('data-go')===n)});if(n==='home'){var t=document.querySelector('.subnav-tab.active');var ind=document.getElementById('subnavIndicator');if(t&&ind){ind.style.width=t.getBoundingClientRect().width+'px';ind.style.left=t.offsetLeft+'px';}}}
+let selectedType='post',mediaUrl=null,mediaType=null,selectedFile=null;
+function setCreateTab(type){document.querySelectorAll('.create-tab').forEach(x=>x.classList.toggle('active',x.dataset.type===type));selectedType=type;var txt=document.getElementById('previewText');if(txt){if(type==='post')txt.textContent='Selecione uma mídia para publicar';if(type==='story')txt.textContent='Faça um story';if(type==='viral')txt.textContent='Crie um vídeo viral (até 1m30s)';}}
+function openCreate(type){setCreateTab(type||'post');go('plus');}
+document.querySelectorAll('.nav button[data-go]').forEach(b=>{b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();var d=this.getAttribute('data-go');if(d==='plus')openCreate('post');else go(d);});});
 document.getElementById('menuBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('dropdownMenu').classList.toggle('show');});
 document.getElementById('menuDecisionsBtn').addEventListener('click',e=>{e.stopPropagation();document.getElementById('dropdownDecisions').classList.toggle('show');});
 document.addEventListener('click',()=>{document.getElementById('dropdownMenu').classList.remove('show');document.getElementById('dropdownDecisions').classList.remove('show');});
 document.getElementById('reelsContainer').addEventListener('scroll',e=>{document.getElementById('videoHeader').classList.toggle('hidden',e.target.scrollTop>50);});
 document.querySelectorAll('.subnav-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.subnav-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');var ind=document.getElementById('subnavIndicator');ind.style.width=t.getBoundingClientRect().width+'px';ind.style.left=t.offsetLeft+'px';}));
-const openEye=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;
-const closedEye=`<line x1="1" y1="1" x2="23" y2="23"></line><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>`;
+const openEye=`<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>`;const closedEye=`<line x1="1" y1="1" x2="23" y2="23"></line><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>`;
 function setupEye(fId,bId,eId){const f=document.getElementById(fId),b=document.getElementById(bId),e=document.getElementById(eId);let m=false;f.addEventListener('input',()=>{if(f.value.length>0&&!m){f.type='password';e.innerHTML=closedEye;}else if(f.value.length===0){m=false;f.type='text';e.innerHTML=openEye;}});b.addEventListener('click',()=>{m=true;const isP=f.type==='password';f.type=isP?'text':'password';e.innerHTML=isP?openEye:closedEye;});}
 setupEye('loginPass','toggleLogin','eyeLogin');setupEye('cadPass','toggleCad','eyeCad');
 document.getElementById('cadUser').addEventListener('input',e=>{e.target.value=e.target.value.toLowerCase().replace(/[^a-z0-9._]/g,'');});
@@ -267,22 +318,15 @@ document.getElementById('loginForm').addEventListener('submit',e=>{e.preventDefa
 document.getElementById('btnGoogle').addEventListener('click',()=>go('perfil'));
 document.getElementById('signupForm').addEventListener('submit',e=>{e.preventDefault();if(!document.getElementById('cadUser').value.trim()||!document.getElementById('cadEmail').value.trim()||!document.getElementById('cadPass').value){alert('Preencha todos os campos.');return;}go('perfil');});
 document.getElementById('recoveryForm').addEventListener('submit',e=>{e.preventDefault();const em=document.getElementById('recEmail').value.trim();if(!em){alert('Digite o e-mail da conta.');return;}alert('Código de recuperação enviado para '+em);go('login');});
-let selectedType='post', mediaUrl=null, mediaType=null, selectedFile=null;
-document.querySelectorAll('.create-tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.create-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');selectedType=t.dataset.type;}));
-document.getElementById('avatarInput').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const url=URL.createObjectURL(file);document.getElementById('avatarBox').innerHTML=`<img src="${url}">`;document.getElementById('storyAvatar').innerHTML=`<img src="${url}"><div class="story-add-badge">+</div>`;});
+document.querySelectorAll('.create-tab').forEach(t=>t.addEventListener('click',()=>setCreateTab(t.dataset.type)));
+document.getElementById('avatarInput').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const url=URL.createObjectURL(file);document.getElementById('avatarBox').innerHTML=`<img src="${url}">`;document.getElementById('storyAvatar').innerHTML=`<img src="${url}">`;});
 function showMedia(file){if(!file)return;selectedFile=file;if(mediaUrl)URL.revokeObjectURL(mediaUrl);mediaUrl=URL.createObjectURL(file);mediaType=file.type.startsWith('video')?'video':'image';document.getElementById('emptyState').style.display='none';const img=document.getElementById('imagePreview');const vid=document.getElementById('videoPreview');img.style.display='none';vid.style.display='none';if(mediaType==='video'){vid.src=mediaUrl;vid.style.display='block';}else{vid.pause();vid.removeAttribute('src');img.src=mediaUrl;img.style.display='block';}document.getElementById('modalThumb').src=mediaUrl;}
 document.getElementById('postInput').addEventListener('change',e=>showMedia(e.target.files[0]));
 document.getElementById('cameraInput').addEventListener('change',e=>showMedia(e.target.files[0]));
 document.getElementById('advanceButton').addEventListener('click',()=>{if(!selectedFile){document.getElementById('postInput').click();return;}document.getElementById('captionModal').classList.add('show');});
 document.getElementById('closeModalBtn').addEventListener('click',()=>document.getElementById('captionModal').classList.remove('show'));
 function makeReel(url,caption){const card=document.createElement('article');card.className='reel-card';card.innerHTML=`<video class="reel-video" src="${url}" autoplay loop muted playsinline></video><div class="play-ind"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg></div><button class="btn-sound"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button><div class="progress"><div class="progress-fill"></div></div><div class="video-footer"><div class="creator-row"><div class="creator-av"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div><span class="creator-name">@usuario</span><button class="btn-follow">Seguir</button></div><p style="font-size:14px;color:#fff">${caption||''}</p></div><div class="video-actions"><button class="action-item btn-like"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button><button class="action-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></button><button class="action-item btn-repost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 2l4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path></svg></button><button class="action-item btn-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button><button class="action-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v-1a7 7 0 0 1 7-7h9"></path><polyline points="16 8 20 4 16 0"></polyline></svg></button></div>`;const video=card.querySelector('.reel-video');const fill=card.querySelector('.progress-fill');const soundBtn=card.querySelector('.btn-sound');const ind=card.querySelector('.play-ind');video.addEventListener('timeupdate',()=>{if(video.duration)fill.style.width=(video.currentTime/video.duration*100)+'%';});soundBtn.addEventListener('click',e=>{e.stopPropagation();video.muted=!video.muted;});video.addEventListener('click',()=>{if(video.paused)video.play();else video.pause();ind.classList.add('show');setTimeout(()=>ind.classList.remove('show'),600);});card.querySelector('.btn-like').addEventListener('click',e=>e.currentTarget.classList.toggle('liked'));card.querySelector('.btn-save').addEventListener('click',e=>e.currentTarget.classList.toggle('saved'));card.querySelector('.btn-repost').addEventListener('click',e=>e.currentTarget.classList.toggle('reposted'));return card;}
-document.getElementById('publishBtn').addEventListener('click',()=>{if(!mediaUrl)return;document.getElementById('loadingOverlay').classList.add('show');const caption=document.getElementById('captionInput').value.trim();const reader=new FileReader();reader.onload=ev=>{const dataUrl=ev.target.result;setTimeout(()=>{document.getElementById('loadingOverlay').classList.remove('show');document.getElementById('captionModal').classList.remove('show');
-const grid=document.getElementById('perfilGrid');const item=document.createElement('div');item.className='grid-item';item.innerHTML=`<button class="btn-del" onclick="this.parentElement.remove();document.getElementById('countPosts').textContent=document.getElementById('perfilGrid').children.length;if(document.getElementById('perfilGrid').children.length===0){document.getElementById('perfilGrid').style.display='none';document.getElementById('perfilEmpty').style.display='flex';}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>${mediaType==='video'?`<video src="${dataUrl}"></video><div class="badge-video"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`:`<img src="${dataUrl}">`}`;grid.appendChild(item);document.getElementById('countPosts').textContent=grid.children.length;document.getElementById('perfilEmpty').style.display='none';grid.style.display='grid';
-const isVideoPost=mediaType==='video'||selectedType==='video';
-if(isVideoPost){document.getElementById('videoEmpty').style.display='none';document.getElementById('reelsContainer').appendChild(makeReel(dataUrl,caption));}
-else{const feed=document.getElementById('postsDynamicFeed');document.getElementById('homeEmpty').style.display='none';const post=document.createElement('article');post.className='post-card';post.innerHTML=`<div class="post-header"><div class="post-author-info"><div class="author-avatar">K</div><span class="author-name">@usuario</span></div><button class="btn-follow-home">Seguir</button></div><div class="post-media-wrapper">${mediaType==='video'?`<video src="${dataUrl}" autoplay loop muted playsinline></video><button class="post-sound-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg></button>`:`<img src="${dataUrl}">`}</div><div class="post-actions-bar"><div class="post-actions-left"><button class="post-action-btn" onclick="this.classList.toggle('liked')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><button class="post-action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button><button class="post-action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v-1a7 7 0 0 1 7-7h9"/><polyline points="16 8 20 4 16 0"/></svg></button></div><button class="post-action-btn" onclick="this.classList.toggle('saved')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button></div>${caption?`<div class="post-caption-area"><span class="post-caption-author">@usuario</span><span>${caption}</span></div>`:''}`;feed.prepend(post);}
-const wasVideo=isVideoPost;mediaUrl=null;mediaType=null;selectedFile=null;document.getElementById('captionInput').value='';document.getElementById('emptyState').style.display='flex';document.getElementById('imagePreview').style.display='none';document.getElementById('videoPreview').style.display='none';if(wasVideo)go('video');else go('perfil');
-},800);};reader.readAsDataURL(selectedFile);});
+document.getElementById('publishBtn').addEventListener('click',()=>{if(!mediaUrl)return;document.getElementById('loadingOverlay').classList.add('show');const caption=document.getElementById('captionInput').value.trim();const reader=new FileReader();reader.onload=ev=>{const dataUrl=ev.target.result;setTimeout(()=>{document.getElementById('loadingOverlay').classList.remove('show');document.getElementById('captionModal').classList.remove('show');const grid=document.getElementById('perfilGrid');const item=document.createElement('div');item.className='grid-item';item.innerHTML=`<button class="btn-del" onclick="this.parentElement.remove();document.getElementById('countPosts').textContent=document.getElementById('perfilGrid').children.length;if(document.getElementById('perfilGrid').children.length===0){document.getElementById('perfilGrid').style.display='none';document.getElementById('perfilEmpty').style.display='flex';}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>${mediaType==='video'?`<video src="${dataUrl}"></video><div class="badge-video"><svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>`:`<img src="${dataUrl}">`}`;grid.appendChild(item);document.getElementById('countPosts').textContent=grid.children.length;document.getElementById('perfilEmpty').style.display='none';grid.style.display='grid';const isViral=selectedType==='viral'||mediaType==='video';const isStory=selectedType==='story';if(isViral){document.getElementById('videoEmpty').style.display='none';document.getElementById('reelsContainer').appendChild(makeReel(dataUrl,caption));}if(isStory){document.getElementById('storyAvatar').innerHTML=`<img src="${dataUrl}">`;}else if(!isViral){const feed=document.getElementById('postsDynamicFeed');document.getElementById('homeEmpty').style.display='none';const post=document.createElement('article');post.className='post-card';post.innerHTML=`<div class="post-header"><div class="post-author-info"><div class="author-avatar">K</div><span class="author-name">@usuario</span></div><button class="btn-follow-home">Seguir</button></div><div class="post-media-wrapper">${mediaType==='video'?`<video src="${dataUrl}" autoplay loop muted playsinline></video><button class="post-sound-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg></button>`:`<img src="${dataUrl}">`}</div><div class="post-actions-bar"><div class="post-actions-left"><button class="post-action-btn" onclick="this.classList.toggle('liked')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button><button class="post-action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button><button class="post-action-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v-1a7 7 0 0 1 7-7h9"/><polyline points="16 8 20 4 16 0"/></svg></button></div><button class="post-action-btn" onclick="this.classList.toggle('saved')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button></div>${caption?`<div class="post-caption-area"><span class="post-caption-author">@usuario</span><span>${caption}</span></div>`:''}`;feed.prepend(post);}const wasViral=isViral;mediaUrl=null;mediaType=null;selectedFile=null;document.getElementById('captionInput').value='';document.getElementById('emptyState').style.display='flex';document.getElementById('imagePreview').style.display='none';document.getElementById('videoPreview').style.display='none';if(wasViral)go('video');else go('perfil');},800);};reader.readAsDataURL(selectedFile);});
 </script>
 </body>
 </html>
