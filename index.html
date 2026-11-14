@@ -2,12 +2,229 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Koneat</title>
-<script>
-  location.href = './passo1.html';
-</script>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;background:#fff;color:#000;padding-bottom:70px}
+header{position:sticky;top:0;background:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #eee;z-index:10}
+header h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.8px}
+/* TELAS - só 1 aparece por vez, sem recarregar */
+.screen{display:none}
+.screen.active{display:block}
+/* STORY - componente único, + já nasce dentro */
+.stories{display:flex;gap:12px;padding:16px;overflow-x:auto}
+.story{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;position:relative}
+.story-avatar{width:66px;height:66px;border-radius:50%;background:#eef0f5;border:1.5px solid #000;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.story-avatar.has-story{border:2px solid #00ff88}
+.story-avatar img,.story-avatar video{width:100%;height:100%;object-fit:cover}
+/* O + FIXO - só existe aqui, dentro do StoryCircle */
+.story-plus{position:absolute;bottom:18px;right:0;width:26px;height:26px;border-radius:50%;background:#000;color:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;z-index:3}
+.story-name{font-size:12px}
+/* POST */
+.post{border-bottom:1px solid #efeff4;margin-bottom:12px}
+.post-head{display:flex;justify-content:space-between;align-items:center;padding:0 16px;height:56px}
+.post-media{width:100%;aspect-ratio:4/5;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.post-media img,.post-media video{width:100%;height:100%;object-fit:cover}
+.post-actions{display:flex;justify-content:space-between;padding:12px 16px}
+.post-actions button{background:none;border:none;font-size:20px;cursor:pointer}
+.post-caption{padding:0 16px 12px;font-size:14px}
+.empty{text-align:center;padding:60px 20px;color:#8e8e93;font-size:14px}
+/* CRIAR */
+.criar{padding:20px 16px}
+.criar input,.criar select{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin-bottom:12px;font-size:15px}
+.criar button{width:100%;padding:14px;background:#000;color:#fff;border:none;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer}
+/* PERFIL */
+.perfil-head{padding:20px 16px;text-align:center}
+.perfil-avatar{width:90px;height:90px;border-radius:50%;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 10px}
+.perfil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
+.perfil-grid img,.perfil-grid video{width:100%;aspect-ratio:1;object-fit:cover;background:#000}
+/* BOTTOM NAV - fixa, 1 só */
+.bottom{position:fixed;bottom:0;left:0;right:0;height:62px;background:#121214;border-radius:20px 20px 0 0;display:flex;justify-content:space-around;align-items:center;z-index:99}
+.bottom button{background:none;border:none;color:#8e8e93;font-size:22px;cursor:pointer;width:48px;height:48px}
+.bottom button.active{color:#fff}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#000;color:#fff;padding:12px 18px;border-radius:20px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:200}
+.toast.show{opacity:1}
+</style>
 </head>
 <body>
+
+<header><h1>koneat</h1><span>🔔</span></header>
+
+<!-- ============ APP ============ -->
+<main id="app">
+
+  <!-- HOME -->
+  <section id="screen-home" class="screen active">
+    <div class="stories" id="storiesBar"></div>
+    <div id="homeFeed"></div>
+  </section>
+
+  <!-- REELS - VITRINE, NÃO CRIA NADA -->
+  <section id="screen-reels" class="screen">
+    <div id="reelsFeed"></div>
+  </section>
+
+  <!-- CRIAR - ÚNICO LUGAR QUE CRIA POST -->
+  <section id="screen-criar" class="screen">
+    <div class="criar">
+      <h2>Criar</h2>
+      <select id="criarTipo">
+        <option value="FEED">POST - vai pra Home e Perfil</option>
+        <option value="VIRAL">VÍDEO - vai pra Reels e Perfil</option>
+      </select>
+      <input type="file" id="criarFile" accept="image/*,video/*">
+      <input type="text" id="criarCaption" placeholder="Legenda...">
+      <button onclick="criarPost()">Publicar</button>
+      <p style="font-size:13px;color:#888">Story não se cria aqui. Story é só pelo + na Home.</p>
+    </div>
+  </section>
+
+  <!-- PERFIL - SÓ LÊ DO MESMO STORE -->
+  <section id="screen-perfil" class="screen">
+    <div class="perfil-head">
+      <div class="perfil-avatar" id="perfilAvatar">K</div>
+      <b id="perfilNome">@koneat_user</b>
+      <p id="perfilStats" style="color:#666;font-size:13px"></p>
+    </div>
+    <div class="perfil-grid" id="perfilGrid"></div>
+  </section>
+
+</main>
+
+<!-- BOTTOM NAV - 1 só, fixa -->
+<nav class="bottom">
+  <button data-go="home" class="active">🏠</button>
+  <button data-go="reels">▶️</button>
+  <button data-go="criar">➕</button>
+  <button data-go="perfil">👤</button>
+</nav>
+
+<input type="file" id="storyInput" accept="image/*,video/*" style="display:none">
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ CORE / STORE - 1 lugar só pra salvar ============
+const KEY = 'koneat_posts_v2';
+const KEY_STORIES = 'koneat_stories_v2';
+function getUser(){ return localStorage.getItem('koneat_username') || 'koneat_user'; }
+function getPosts(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+function savePosts(p){ localStorage.setItem(KEY, JSON.stringify(p)); }
+function getStories(){ try{ return JSON.parse(localStorage.getItem(KEY_STORIES)||'[]'); }catch(e){ return []; } }
+function saveStories(s){ localStorage.setItem(KEY_STORIES, JSON.stringify(s)); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+
+// ============ NAVEGAÇÃO - troca tela sem recarregar ============
+function go(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+screen).classList.add('active');
+  document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active', b.dataset.go===screen));
+  if(screen==='home') renderHome();
+  if(screen==='reels') renderReels();
+  if(screen==='perfil') renderPerfil();
+}
+document.querySelectorAll('.bottom button').forEach(b=>b.addEventListener('click', ()=>go(b.dataset.go)));
+
+// ============ COMPONENTE: StoryCircle - + já nasce dentro ============
+function renderStories(){
+  const bar = document.getElementById('storiesBar');
+  const stories = getStories().filter(s=>Date.now() < (s.expiresAt||0));
+  const meus = stories.filter(s=>s.author===getUser());
+  const outros = stories.filter(s=>s.author!==getUser());
+  // Grupo dos outros por autor
+  const grupos = {};
+  outros.forEach(s=>{ if(!grupos[s.author]) grupos[s.author]=[]; grupos[s.author].push(s); });
+
+  let html = `
+    <button class="story" onclick="handleMeuStory()">
+      <span style="position:relative;display:block">
+        <span class="story-avatar ${meus.length?'has-story':''}" id="meuAvatar">
+          ${meus.length ? `<img src="${meus[0].midia}">` : '😀'}
+        </span>
+        <span class="story-plus">+</span>
+      </span>
+      <span class="story-name">seu story</span>
+    </button>`;
+
+  Object.keys(grupos).forEach(author=>{
+    const s = grupos[author][0];
+    html += `<button class="story" onclick="openStory('${author}')">
+      <span class="story-avatar"><img src="${s.midia}"></span>
+      <span class="story-name">${author}</span>
+    </button>`;
+  });
+  bar.innerHTML = html;
+}
+
+function handleMeuStory(){
+  const meus = getStories().filter(s=>s.author===getUser() && Date.now() < s.expiresAt);
+  if(meus.length) { toast('Abrindo seu story...'); openStory(getUser()); }
+  else document.getElementById('storyInput').click();
+}
+// Clicar no + abre galeria, nunca abre story
+document.addEventListener('click', (e)=>{
+  if(e.target.classList.contains('story-plus')){
+    e.stopPropagation();
+    document.getElementById('storyInput').click();
+  }
+});
+
+document.getElementById('storyInput').addEventListener('change', (e)=>{
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const arr = getStories();
+    arr.unshift({ id: Date.now(), author: getUser(), midia: reader.result, mediaType: file.type.startsWith('video')?'video':'image', expiresAt: Date.now()+24*60*60*1000 });
+    saveStories(arr); e.target.value=''; renderStories(); toast('Story publicado!');
+  };
+  reader.readAsDataURL(file);
+});
+function openStory(author){ toast('Story de @'+author); }
+
+// ============ HOME / REELS / PERFIL - todos leem do mesmo STORE ============
+function postCard(p){
+  const isVideo = p.mediaType==='video';
+  return `<article class="post">
+    <div class="post-head"><b>@${p.author}</b><span style="font-size:12px;color:#888">${p.tipo}</span></div>
+    <div class="post-media">${isVideo ? `<video src="${p.midia}" controls playsinline></video>` : `<img src="${p.midia}">`}</div>
+    <div class="post-actions"><span><button onclick="likePost('${p.id}')">❤️</button> <button>💬</button></span><button>🔖</button></div>
+    ${p.caption ? `<div class="post-caption"><b>@${p.author}</b> ${p.caption}</div>` : ''}
+  </article>`;
+}
+function renderHome(){
+  renderStories();
+  const feed = getPosts().filter(p=>p.tipo==='FEED');
+  document.getElementById('homeFeed').innerHTML = feed.length ? feed.map(postCard).join('') : `<div class="empty">Nenhuma publicação.<br>Crie no Criar!</div>`;
+}
+function renderReels(){
+  const feed = getPosts().filter(p=>p.tipo==='VIRAL');
+  document.getElementById('reelsFeed').innerHTML = feed.length ? feed.map(postCard).join('') : `<div class="empty">Nenhum vídeo viral.<br>Crie um vídeo no Criar!</div>`;
+}
+function renderPerfil(){
+  const meus = getPosts().filter(p=>p.author===getUser());
+  document.getElementById('perfilNome').textContent = '@'+getUser();
+  document.getElementById('perfilStats').textContent = meus.length + ' publicações';
+  document.getElementById('perfilGrid').innerHTML = meus.length ? meus.map(p=> p.mediaType==='video' ? `<video src="${p.midia}" muted></video>` : `<img src="${p.midia}">`).join('') : `<div class="empty" style="grid-column:1/4">Nada aqui ainda.<br>Posta no Criar que aparece aqui!</div>`;
+}
+function likePost(id){ toast('Curtiu!'); }
+
+// ============ CRIAR - único lugar que salva post ============
+function criarPost(){
+  const file = document.getElementById('criarFile').files[0];
+  if(!file) return toast('Escolhe uma foto ou vídeo');
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const arr = getPosts();
+    arr.unshift({ id: 'post_'+Date.now(), author: getUser(), midia: reader.result, mediaType: file.type.startsWith('video')?'video':'image', tipo: document.getElementById('criarTipo').value, caption: document.getElementById('criarCaption').value, createdAt: Date.now() });
+    savePosts(arr);
+    document.getElementById('criarFile').value=''; document.getElementById('criarCaption').value='';
+    toast('Publicado! Vai ver no Perfil.');
+    go('perfil');
+  };
+  reader.readAsDataURL(file);
+}
+
+renderHome();
+</script>
 </body>
-</html>
+        </html>
